@@ -1,11 +1,13 @@
-import 'account.dart';
+import 'package:equatable/equatable.dart';
 
-class User {
+import 'service.dart';
+
+class User extends Equatable {
   final String username;
   final String email;
   final String password;
   final String role;
-  final Account account;
+  final Service service;
   final StatutUser statut;
   final DateTime dateExpiration;
   final DateTime dateMaj;
@@ -15,7 +17,7 @@ class User {
       required this.email,
       required this.password,
       required this.role,
-      required this.account,
+      required this.service,
       required this.statut,
       required this.dateExpiration,
       required this.dateMaj});
@@ -25,7 +27,7 @@ class User {
       String? email,
       String? password,
       String? role,
-      Account? account,
+      Service? service,
       StatutUser? statut,
       DateTime? dateExpiration,
       DateTime? dateMaj}) {
@@ -34,7 +36,7 @@ class User {
         email: email ?? this.email,
         password: password ?? this.password,
         role: role ?? this.role,
-        account: account ?? this.account,
+        service: service ?? this.service,
         statut: statut ?? this.statut,
         dateExpiration: dateExpiration ?? this.dateExpiration,
         dateMaj: dateMaj ?? this.dateMaj);
@@ -49,7 +51,7 @@ class User {
       'email': email,
       'password': password,
       'role': role,
-      'account': account,
+      'service': service,
       'statut': statut,
       'dateExpiration': dateExpiration
     };

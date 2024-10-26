@@ -1,3 +1,4 @@
+import 'package:demandes/core/themes/app_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -69,18 +70,18 @@ class Utils {
   }
 
   static void showErrorMessage({required String message}) {
-    showToast(message: message, color: Colors.red);
+    showToast(message: message, color: AppPalette.errorMessageColor);
   }
 
   static void showWarningMessage({required String message}) {
-    showToast(message: message, color: Colors.orange.shade800);
+    showToast(message: message, color: AppPalette.warningMessageColor);
   }
 
   static void showInfoMessage({required String message}) {
-    showToast(message: message, color: Colors.blue);
+    showToast(message: message, color: AppPalette.infoMessageColor);
   }
 
   static void showSuccessMessage({required String message}) {
-    showToast(message: message, color: Colors.green.shade800);
+    showToast(message: message, color: AppPalette.successMessageColor);
   }
 }
