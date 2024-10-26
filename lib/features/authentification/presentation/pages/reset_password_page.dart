@@ -25,9 +25,7 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
   Widget build(BuildContext context) {
     final authService = ref.watch(authProvider);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Reset password'),
-        ),
+        appBar: AppBar(),
         body: SafeArea(
           child: Center(
             child: Padding(
@@ -37,10 +35,17 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                 key: _formKey,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
+                    //mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Réinitialisation du password',
-                          style: Theme.of(context).textTheme.titleMedium),
+                      const Text(
+                        'Reset password',
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: AppPalette.colorSaumon),
+                      ),
+                      //Text('Réinitialisation du password',
+                      //    style: Theme.of(context).textTheme.titleMedium),
                       const SizedBox(height: 20),
                       AuthField(
                           controller: emailController,
@@ -67,7 +72,8 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                           child: const Text(
                             'Envoyer',
                             style: TextStyle(fontWeight: FontWeight.bold),
-                          ))
+                          )),
+                      const SizedBox(height: 200.0)
                     ]),
               ),
             ),

@@ -1,22 +1,23 @@
-import 'package:demandes/core/secrets/supabase_secret.dart';
+import 'package:demandes/features/authentification/presentation/bloc/auth_bloc.dart';
 import 'package:demandes/features/authentification/presentation/pages/auth_state_page.dart';
 import 'package:demandes/core/themes/app_theme.dart';
+import 'package:demandes/init_dependencies.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-      url: SupabaseSecret.url, anonKey: SupabaseSecret.anonKey);
+  await initDependencies();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+    child: MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (create) => serviceLocator<AuthBloc>(),
+      ),
+    ], child: const MyApp()),
+  ));
 }
 
 class MyApp extends StatelessWidget {

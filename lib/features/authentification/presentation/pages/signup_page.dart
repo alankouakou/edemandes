@@ -1,7 +1,10 @@
+import 'package:demandes/features/authentification/presentation/bloc/auth_bloc.dart';
+import 'package:demandes/features/authentification/presentation/widgets/auth_button.dart';
 import 'package:demandes/features/authentification/presentation/widgets/auth_field.dart';
 import 'package:demandes/features/authentification/presentation/widgets/auth_password_field.dart';
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -17,6 +20,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
   bool isVisible = true;
@@ -35,64 +39,74 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppPalette.scaffoldLightBackgroundColor,
-        appBar: AppBar(title: const Text('Sign Up')),
+        appBar: AppBar(),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.disabled,
-              child: Column(children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
-                  child: Text('Nouveau compte',
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Color(0xFFF3774D),
-                          fontWeight: FontWeight.bold)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: AuthField(
-                    controller: _emailController,
-                    hintText: 'E-mail',
-                    suffixIcon: const Icon(Icons.mail),
-                  ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: AuthPasswordField(
-                      controller: _passwordController,
-                      hintText: 'Entrez le mot de passe',
-                    )),
-                Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: AuthPasswordField(
-                      confirmPasswordField: _passwordController,
-                      controller: _repeatPasswordController,
-                      hintText: 'Confirmez le mot de passe',
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        signUp(_emailController.text, _passwordController.text);
-                        Navigator.pop(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(double.infinity, 50),
-                        foregroundColor: Colors.white,
-                        backgroundColor: AppPalette.buttonBackgroundColor,
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide.none,
-                            borderRadius: BorderRadius.circular(8.0))),
-                    child: const Text('Créer le compte',
-                        style: TextStyle(fontSize: 16)),
-                  ),
-                )
-              ]),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Nouveau compte',
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: Color(0xFFF3774D),
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: AuthField(
+                        controller: _nameController,
+                        hintText: 'Name',
+                        suffixIcon: const Icon(Icons.mail),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: AuthField(
+                        controller: _emailController,
+                        hintText: 'E-mail',
+                        suffixIcon: const Icon(Icons.mail),
+                      ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: AuthPasswordField(
+                          controller: _passwordController,
+                          hintText: 'Entrez le mot de passe',
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: AuthPasswordField(
+                          confirmPasswordField: _passwordController,
+                          controller: _repeatPasswordController,
+                          hintText: 'Confirmez le mot de passe',
+                        )),
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: AuthButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<AuthBloc>().add(
+                                  AuthSignUp(
+                                      name: _nameController.text.trim(),
+                                      email: _emailController.text.trim(),
+                                      password:
+                                          _passwordController.text.trim()),
+                                );
+                            //signUp(_emailController.text,
+                            //    _passwordController.text);
+                            Navigator.pop(context);
+                          }
+                        },
+                        title: 'Créer le compte',
+                      ),
+                    ),
+                    const SizedBox(height: 200.0),
+                  ]),
             ),
           ),
         ));

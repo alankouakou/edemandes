@@ -1,5 +1,6 @@
 import 'package:demandes/features/authentification/presentation/pages/reset_password_page.dart';
 import 'package:demandes/features/authentification/presentation/pages/signup_page.dart';
+import 'package:demandes/features/authentification/presentation/widgets/auth_button.dart';
 import 'package:demandes/features/authentification/presentation/widgets/auth_field.dart';
 import 'package:demandes/features/authentification/presentation/widgets/auth_password_field.dart';
 import 'package:demandes/core/themes/app_palette.dart';
@@ -95,24 +96,16 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 0, horizontal: 30.0),
-                      child: OutlinedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              final email = _emailController.text;
-                              final password = _passwordController.text;
-                              signinWithEmailAndPassword(email, password);
-                            }
-                          },
-                          style: OutlinedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 50.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            backgroundColor: AppPalette.buttonBackgroundColor,
-                          ),
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          )),
+                      child: AuthButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
+                            signinWithEmailAndPassword(email, password);
+                          }
+                        },
+                        title: 'Login',
+                      ),
                     ),
                     const SizedBox(height: 10),
                     GestureDetector(

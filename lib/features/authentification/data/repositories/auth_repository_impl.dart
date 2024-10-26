@@ -1,30 +1,31 @@
 import 'package:demandes/core/error/exceptions.dart';
 import 'package:demandes/core/error/failures.dart';
 import 'package:demandes/features/authentification/data/datasources/auth_remote_datasource.dart';
+import 'package:demandes/features/authentification/domain/entities/user.dart';
 import 'package:demandes/features/authentification/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
-class AutRepositoryImpl implements AuthRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource authRemoteDatasource;
 
-  const AutRepositoryImpl(this.authRemoteDatasource);
+  const AuthRepositoryImpl(this.authRemoteDatasource);
 
   @override
-  Future<Either<Failure, String>> loginWithEmailAndPassword(
+  Future<Either<Failure, User>> loginWithEmailAndPassword(
       {required String email, required String password}) {
     // TODO: implement loginWithEmailAndPassword
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailAndPassword(
+  Future<Either<Failure, User>> signUpWithEmailAndPassword(
       {required String name,
       required String email,
       required String password}) async {
     try {
-      final userId = await authRemoteDatasource.signUpWithEmailAndPassword(
+      final user = await authRemoteDatasource.signUpWithEmailAndPassword(
           name: name, email: email, password: password);
-      return right(userId);
+      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
