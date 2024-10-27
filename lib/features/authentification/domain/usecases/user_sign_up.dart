@@ -1,6 +1,6 @@
 import 'package:demandes/core/error/exceptions.dart';
 import 'package:demandes/core/error/failures.dart';
-import 'package:demandes/core/usecase.dart';
+import 'package:demandes/core/usecase/usecase.dart';
 import 'package:demandes/features/authentification/domain/entities/user.dart';
 import 'package:demandes/features/authentification/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
