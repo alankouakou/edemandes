@@ -1,15 +1,18 @@
-import 'package:demandes/features/authentification/pages/reset_password.dart';
-import 'package:demandes/features/authentification/pages/signup.dart';
-import 'package:flutter/material.dart';
+import 'package:demandes/features/authentification/presentation/pages/reset_password_page.dart';
+import 'package:demandes/features/authentification/presentation/pages/signup_page.dart';
+import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class LoginPage extends ConsumerStatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
@@ -22,9 +25,6 @@ class _LoginState extends State<Login> {
     _passwordController.dispose();
     super.dispose();
   }
-
-  Future<void> signinWithEmailAndPassword(
-      String email, String password) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +120,16 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 0, horizontal: 30.0),
                     child: OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (_emailController.text.isNotEmpty &&
+                              _passwordController.text.isNotEmpty) {
+                            ref
+                                .read(authRepoProvider)
+                                .signinWithEmailAndPassword(
+                                    _emailController.text.trim(),
+                                    _passwordController.text.trim());
+                          }
+                        },
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50.0),
                           shape: RoundedRectangleBorder(
@@ -143,7 +152,7 @@ class _LoginState extends State<Login> {
                         onTap: () {
                           final nv = Navigator.of(context);
                           nv.push(MaterialPageRoute(
-                              builder: (context) => const SignUp()));
+                              builder: (context) => const SignupPage()));
                         },
                         child: const Text('Créez un compte',
                             style: TextStyle(

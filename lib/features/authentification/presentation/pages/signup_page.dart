@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignupPageState extends State<SignupPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
