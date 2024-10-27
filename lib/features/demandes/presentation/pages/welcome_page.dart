@@ -1,5 +1,6 @@
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/authentification/services/auth_service.dart';
+import 'package:demandes/features/demandes/presentation/pages/add_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/widgets/custom_panel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,9 @@ class WelcomePage extends ConsumerWidget {
                       style: Theme.of(context).textTheme.titleLarge),
                   IconButton(
                       iconSize: 30.0,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, AddDemandePage.route());
+                      },
                       icon: const Icon(Icons.add_circle, color: Colors.blue))
                 ],
               ),
