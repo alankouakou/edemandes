@@ -36,7 +36,7 @@ class CustomPanel extends StatelessWidget {
                       child: Divider(),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(left: 10.0),
+                      padding: EdgeInsets.only(left: 20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

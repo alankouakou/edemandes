@@ -26,8 +26,12 @@ class _AddDemandePageState extends ConsumerState<AddDemandePage> {
               icon: const Icon(Icons.power_settings_new)),
         ],
       ),
-      body: const Center(
-        child: Text('Page Nouvelle Demande '),
+      body: const Column(
+        children: [
+          Center(
+            child: Text('Page Nouvelle Demande '),
+          ),
+        ],
       ),
     );
   }
