@@ -1,21 +1,31 @@
+import 'package:demandes/core/utils.dart';
+import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class SignupPage extends StatefulWidget {
+class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  ConsumerState<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupPageState extends ConsumerState<SignupPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
   bool isVisible = true;
+  bool isLoading = false;
 
   Future<void> signUp(String email, String password) async {}
+
+  @override
+  void initState() {
+    isLoading = false;
+  }
 
   void toggleVisibility() {
     setState(
@@ -27,6 +37,11 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authStreamProvider, (previous, next) {
+      Utils.showSuccessMessage(
+          message: "Utilisateur ${next.value?.uid} créé avec succès!");
+      Navigator.pop(context);
+    });
     return Scaffold(
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(title: const Text('Sign Up')),
@@ -49,7 +64,7 @@ class _SignupPageState extends State<SignupPage> {
                   child: TextFormField(
                     controller: _emailController,
                     validator: (value) => value!.isEmpty
-                        ? 'Rensaignez le champ e-mail'
+                        ? 'Renseignez le champ e-mail'
                         : null, // Le login doit être unique
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
@@ -88,11 +103,9 @@ class _SignupPageState extends State<SignupPage> {
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: TextFormField(
                     controller: _repeatPasswordController,
-                    validator: (value) => value!.isEmpty
+                    validator: (value) => (value == _passwordController.text)
                         ? null
-                        : (value == _passwordController.text)
-                            ? null
-                            : 'Verifiez le mot de passe',
+                        : 'Verifiez le mot de passe',
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     obscureText: isVisible,
                     decoration: InputDecoration(
@@ -114,18 +127,36 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: ElevatedButton(
-                    onPressed: () {
-                      signUp(_emailController.text, _passwordController.text);
-                    },
+                    onPressed: isLoading == true
+                        ? null
+                        : () async {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              print(
+                                  'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
+                              final user = await ref
+                                  .read(authRepoProvider)
+                                  .createUserWithEmailAndPassword(
+                                      email: _emailController.text,
+                                      password: _passwordController.text);
+                              print(
+                                  'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(double.infinity, 50),
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.grey.shade700,
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide.none,
-                            borderRadius: BorderRadius.circular(8.0))),
-                    child: const Text('Créer le compte',
-                        style: TextStyle(fontSize: 16)),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: isLoading == true
+                        ? const Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.white))
+                        : const Text('Créer le compte',
+                            style: TextStyle(fontSize: 16)),
                   ),
                 )
               ]),
@@ -135,11 +166,9 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   passwordValidator(String? value) {
-    var resultCheck = value!.isEmpty
+    var resultCheck = (value != null && value.length >= 6)
         ? null
-        : value.length < 4
-            ? 'Le mot de passe doit comporter au minimum 4 caractères'
-            : null;
+        : 'Mot de passe invlide (minimum 6 caractères)';
 
     return resultCheck;
   }

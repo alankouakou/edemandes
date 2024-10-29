@@ -1,3 +1,4 @@
+import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/features/authentification/presentation/pages/auth_state_page.dart';
 import 'package:demandes/features/authentification/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightThemeMode,
       home: const AuthStatePage(),
     );
   }

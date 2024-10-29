@@ -1,8 +1,8 @@
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
-import 'package:demandes/features/authentification/services/auth_service.dart';
 import 'package:demandes/features/demandes/presentation/pages/add_demande_page.dart';
-import 'package:demandes/features/demandes/presentation/widgets/custom_panel.dart';
-import 'package:flutter/foundation.dart';
+import 'package:demandes/features/demandes/presentation/providers/demande_providers.dart';
+
+import 'package:demandes/features/demandes/presentation/widgets/demande_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +14,7 @@ class WelcomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final demandeRepo = ref.watch(demandeRepoProvider);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -34,34 +35,44 @@ class WelcomePage extends ConsumerWidget {
                 icon: const Icon(Icons.power_settings_new)),
           ]),
       backgroundColor: Colors.grey.shade100,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, bottom: 20.0),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: .0),
+        child: Column(children: [
+          Container(
+            decoration: const BoxDecoration(color: Colors.white),
+            height: MediaQuery.of(context).size.height * 0.1,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Demandes',
                       style: Theme.of(context).textTheme.titleLarge),
-                  IconButton(
-                      iconSize: 30.0,
+                  ElevatedButton(
                       onPressed: () {
                         Navigator.push(context, AddDemandePage.route());
                       },
-                      icon: const Icon(Icons.add_circle, color: Colors.blue))
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue),
+                      child: const Text('Nouvelle demande +',
+                          style: TextStyle(fontWeight: FontWeight.bold)))
                 ],
               ),
             ),
-            const CustomPanel(color: Colors.red),
-            const CustomPanel(color: Colors.green),
-            const CustomPanel(color: Colors.blue),
-            const CustomPanel(color: Colors.orange),
-            const CustomPanel(color: Colors.grey),
-            const CustomPanel(color: Colors.lightBlue),
-          ]),
-        ),
+          ),
+          Expanded(
+              child: ListView(
+            children: const [
+              DemandeItem(color: Colors.red),
+              DemandeItem(color: Colors.green),
+              DemandeItem(color: Colors.blue),
+              DemandeItem(color: Colors.orange),
+              DemandeItem(color: Colors.grey),
+              DemandeItem(color: Colors.lightBlue),
+            ],
+          )),
+        ]),
       ),
     );
   }

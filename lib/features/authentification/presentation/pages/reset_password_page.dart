@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -27,24 +28,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             color: Colors.grey.shade700,
                             fontWeight: FontWeight.bold,
                             fontSize: 20)),
-                    const SizedBox(height: 20),
+                    const Gap(20),
                     TextField(
                       controller: emailController,
                       decoration: const InputDecoration(
                           hintText: "Entrez l'e-mail de confirmation"),
                     ),
-                    const SizedBox(height: 20),
+                    const Gap(20),
                     OutlinedButton(
                         onPressed: () {
                           Navigator.pop(context);
                           //
                         },
                         style: OutlinedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 50.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            backgroundColor: Colors.grey.shade700,
-                            foregroundColor: Colors.white),
+                          minimumSize: const Size(double.infinity, 50.0),
+                        ),
                         child: const Text(
                           'Envoyer le mail',
                           style: TextStyle(fontWeight: FontWeight.bold),
