@@ -13,7 +13,7 @@ class AppBarTitle extends StatelessWidget {
       title: Text('Bonjour',
           style: TextStyle(fontSize: 14, color: Colors.black54)),
       subtitle: Text(
-        'Alan K.',
+        'Charles K.',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );

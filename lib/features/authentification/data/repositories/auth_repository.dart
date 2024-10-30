@@ -66,5 +66,8 @@ class AuthRepository {
     Utils.showSuccessMessage(message: 'Utilisateur déconnecté!');
   }
 
-  Future<void> resetPassword(String email) async {}
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+    Utils.showSuccessMessage(message: 'E-mail envoyé!');
+  }
 }

@@ -61,16 +61,9 @@ class WelcomePage extends ConsumerWidget {
               ),
             ),
           ),
-          Expanded(
-              child: ListView(
-            children: const [
-              DemandeItem(color: Colors.red),
-              DemandeItem(color: Colors.green),
-              DemandeItem(color: Colors.blue),
-              DemandeItem(color: Colors.orange),
-              DemandeItem(color: Colors.grey),
-              DemandeItem(color: Colors.lightBlue),
-            ],
+          const Expanded(
+              child: Center(
+            child: Text('Demandes'),
           )),
         ]),
       ),

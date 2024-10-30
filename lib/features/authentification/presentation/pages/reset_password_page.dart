@@ -1,14 +1,16 @@
+import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
-class ResetPasswordPage extends StatefulWidget {
+class ResetPasswordPage extends ConsumerStatefulWidget {
   const ResetPasswordPage({super.key});
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  ConsumerState<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
   final TextEditingController emailController = TextEditingController();
 
   @override
@@ -37,6 +39,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     const Gap(20),
                     OutlinedButton(
                         onPressed: () {
+                          ref
+                              .read(authRepoProvider)
+                              .resetPassword(emailController.text);
                           Navigator.pop(context);
                           //
                         },

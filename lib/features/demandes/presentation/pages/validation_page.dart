@@ -1,20 +1,24 @@
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
+import 'package:demandes/features/demandes/data/models/demande.dart';
+import 'package:demandes/features/demandes/presentation/providers/demande_providers.dart';
 import 'package:demandes/features/demandes/presentation/widgets/appbar_title.dart';
 import 'package:demandes/features/demandes/presentation/widgets/display_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:gap/gap.dart';
 
-class ValidationPage extends StatelessWidget {
-  const ValidationPage({super.key});
+class ValidationPage extends ConsumerWidget {
+  final Demande demande;
+  const ValidationPage({super.key, required this.demande});
 
-  static Route route() {
-    return MaterialPageRoute(builder: (_) => const ValidationPage());
+  static Route route(Demande demande) {
+    return MaterialPageRoute(builder: (_) => ValidationPage(demande: demande));
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final montantDemande = Utils.formatCFA(500000);
     return Scaffold(
       appBar: AppBar(title: const AppBarTitle()),
@@ -29,29 +33,28 @@ class ValidationPage extends StatelessWidget {
               children: [
                 const Text('Validation Page', style: AppTheme.pageTitleStyle),
                 const Gap(10),
-                const DisplayFieldWidget(
-                    title: 'Objet de la demande',
-                    text:
-                        'zefzefergzergergzergzegregezgergregegegzrgegzegeazgerageagreagerageragaergaegaergaegeagagaergeageargergergeg'),
+                DisplayFieldWidget(
+                    title: 'Objet de la demande', text: demande.objet),
                 const Gap(20),
                 DisplayFieldWidget(
-                    title: 'Montant prévisionnel', text: montantDemande),
+                    title: 'Montant prévisionnel',
+                    text: Utils.formatCFA(demande.montantPrevisionnel)),
                 const Gap(20),
-                const DisplayFieldWidget(title: 'Demandeur:', text: ' XXXXXXX'),
+                DisplayFieldWidget(title: 'Demandeur:', text: demande.user),
                 const Gap(20),
-                const DisplayFieldWidget(title: 'Service: ', text: 'ZZZZ'),
-                const Gap(20),
-                const DisplayFieldWidget(
-                    title: 'Visa chef service:', text: 'jj/mm/aaaa'),
+                DisplayFieldWidget(title: 'Service: ', text: demande.service),
                 const Gap(20),
                 const DisplayFieldWidget(
-                    title: 'Visa RAF:', text: 'jj/mm/aaaa'),
+                    title: 'Visa chef service:', text: 'N/A'),
+                const Gap(20),
+                const DisplayFieldWidget(title: 'Visa RAF:', text: 'N/A'),
                 const Gap(20),
                 const DisplayFieldWidget(
-                    title: 'Visa Coordonnateur:', text: 'jj/mm/aaaa'),
+                    title: 'Visa Coordonnateur:', text: 'N/A'),
                 const Gap(20),
-                const DisplayFieldWidget(
-                    title: 'Date de la demande:', text: 'jj/mm/aaaa'),
+                DisplayFieldWidget(
+                    title: 'Date de la demande:',
+                    text: Utils.dateFull.format(demande.dateCreated)),
                 const Gap(20),
               ],
             )),
@@ -69,7 +72,15 @@ class ValidationPage extends StatelessWidget {
                   ElevatedButton(
                       style:
                           ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      onPressed: () {},
+                      onPressed: [3, 4, 5].contains(demande.statut)
+                          ? null
+                          : () {
+                              ref.read(demandeRepoProvider).updateDemande(
+                                  demande.docId!, demande.copyWith(statut: 3));
+                              Utils.showErrorMessage(
+                                  message: 'Demande rejetée!');
+                              Navigator.pop(context);
+                            },
                       child: const Text(
                         'Rejeter',
                       )),
@@ -77,7 +88,15 @@ class ValidationPage extends StatelessWidget {
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green),
-                      onPressed: () {},
+                      onPressed: [3, 4, 5].contains(demande.statut)
+                          ? null
+                          : () {
+                              ref.read(demandeRepoProvider).updateDemande(
+                                  demande.docId!, demande.copyWith(statut: 4));
+                              Utils.showSuccessMessage(
+                                  message: 'Demande acceptée!');
+                              Navigator.pop(context);
+                            },
                       child: const Text(
                         'Approuver',
                       )),

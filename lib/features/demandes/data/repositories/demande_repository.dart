@@ -3,7 +3,7 @@ import 'package:demandes/features/demandes/data/models/demande.dart';
 
 abstract interface class Repository {
   Future<void> addNewDemande(Demande d);
-  Future<Demande> updateDemande(Demande d);
+  Future<void> updateDemande(String docId, Demande d);
   Future<Demande> fetch(String docId);
   Future<List<Demande>> fetchByService(String service);
   Future<List<Demande>> fetchByStatus(String status);
@@ -12,13 +12,13 @@ abstract interface class Repository {
 }
 
 class DemandeRepository implements Repository {
-  final RemoteDatasource remoteDatasource;
+  final RemoteDatasource remoteDS;
 
-  const DemandeRepository(this.remoteDatasource);
+  const DemandeRepository(this.remoteDS);
 
   @override
   Future<void> addNewDemande(Demande demande) async {
-    return await remoteDatasource.add(demande);
+    return await remoteDS.add(demande);
   }
 
   @override
@@ -52,13 +52,12 @@ class DemandeRepository implements Repository {
   }
 
   @override
-  Future<Demande> updateDemande(Demande d) async {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<void> updateDemande(String docId, Demande demande) async {
+    return await remoteDS.edit(docId, demande);
   }
 
   Stream<List<Demande>> fetchStream() async* {
-    final listDemandes = remoteDatasource.fetchAll().map((e) {
+    final listDemandes = remoteDS.fetchAll().map((e) {
       return e.docs.map((d) => Demande.fromSnapshot(d)).toList();
     });
 

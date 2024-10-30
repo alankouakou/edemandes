@@ -179,6 +179,8 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                             .addNewDemande(demande);
                         setState(() => isSaving = false);
                         Utils.showSuccessMessage(message: 'Demande créée');
+                        Future.delayed(const Duration(seconds: 1),
+                            () => Navigator.pop(context));
                       } else {
                         Utils.showErrorMessage(
                             message: 'Veuillez renseigner tous les champs');

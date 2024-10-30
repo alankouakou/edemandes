@@ -2,6 +2,7 @@ import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/demandes/presentation/pages/add_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/providers/demande_providers.dart';
+import 'package:demandes/features/demandes/presentation/providers/demande_stream_provider.dart';
 
 import 'package:demandes/features/demandes/presentation/widgets/demande_item.dart';
 import 'package:demandes/features/demandes/presentation/widgets/demande_widget.dart';
@@ -27,7 +28,7 @@ class ListDemandesPage extends ConsumerWidget {
               ),
               title: Text('Bonjour',
                   style: TextStyle(fontSize: 14, color: Colors.black54)),
-              subtitle: Text('Alan K.',
+              subtitle: Text('Charles K.',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
           actions: [
             IconButton(

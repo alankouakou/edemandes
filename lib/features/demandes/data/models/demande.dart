@@ -73,4 +73,28 @@ class Demande {
 
   factory Demande.fromJson(String source) =>
       Demande.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  Demande copyWith({
+    String? docId,
+    String? objet,
+    double? montantPrevisionnel,
+    double? montantDefinitif,
+    String? service,
+    String? user,
+    int? statut,
+    DateTime? dateCreated,
+    DateTime? dateUpdated,
+  }) {
+    return Demande(
+      docId: docId ?? this.docId,
+      objet: objet ?? this.objet,
+      montantPrevisionnel: montantPrevisionnel ?? this.montantPrevisionnel,
+      montantDefinitif: montantDefinitif ?? this.montantDefinitif,
+      service: service ?? this.service,
+      user: user ?? this.user,
+      statut: statut ?? this.statut,
+      dateCreated: dateCreated ?? this.dateCreated,
+      dateUpdated: dateUpdated ?? this.dateUpdated,
+    );
+  }
 }

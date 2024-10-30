@@ -8,6 +8,10 @@ class RemoteDatasource {
     _demandesCollection.add(demande.toMap());
   }
 
+  Future<void> edit(String docId, Demande demande) async {
+    _demandesCollection.doc(docId).update(demande.toMap());
+  }
+
   Stream<QuerySnapshot> fetchAll() {
     return _demandesCollection
         .orderBy('date_created', descending: true)

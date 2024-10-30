@@ -27,6 +27,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     isLoading = false;
   }
 
+  @override
   void toggleVisibility() {
     setState(
       () {
@@ -38,9 +39,11 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen(authStreamProvider, (previous, next) {
-      Utils.showSuccessMessage(
-          message: "Utilisateur ${next.value?.uid} créé avec succès!");
-      Navigator.pop(context);
+      if (next.value != null) {
+        Utils.showSuccessMessage(
+            message: "Utilisateur ${next.value?.uid} créé avec succès!");
+        Navigator.pop(context);
+      }
     });
     return Scaffold(
         backgroundColor: Colors.grey.shade100,

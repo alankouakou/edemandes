@@ -1,5 +1,6 @@
 import 'package:demandes/core/utils.dart';
 import 'package:demandes/features/demandes/data/models/demande.dart';
+import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -27,7 +28,9 @@ class DemandeWidget extends StatelessWidget {
     };
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context, ValidationPage.route(demande));
+      },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
