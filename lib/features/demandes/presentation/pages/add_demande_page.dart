@@ -1,9 +1,11 @@
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
-import 'package:demandes/features/demandes/data/models/demande.dart';
+import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
+import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
+import 'package:demandes/features/demandes/data/models/demande_model.dart';
+import 'package:demandes/features/demandes/presentation/pages/main_menu.dart';
 import 'package:demandes/features/demandes/presentation/providers/demande_providers.dart';
-import 'package:demandes/features/demandes/presentation/widgets/appbar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,13 +47,33 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
     );
   }
 
+  void clearFields() {
+    _objetController.clear();
+    _montantPrevisionnelController.clear();
+    _montantDefinitifController.clear();
+    _serviceController.clear();
+    _userController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userNotifierProvider);
+    user.when(
+        data: (data) {
+          _userController.text = data.username;
+          //_serviceController.text = ;
+        },
+        error: (error, stackTrace) => null,
+        loading: () => null);
+    List<String> services = [
+      'Audit',
+      'Comptabilité',
+      'Direction Générale',
+      'Informatique',
+      'Moyens généraux',
+    ];
+
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const AppBarTitle(),
-        ),
         backgroundColor: Colors.grey.shade100,
         body: SafeArea(
           child: Padding(
@@ -87,7 +109,7 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                   child: TextFormField(
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(7)
+                      LengthLimitingTextInputFormatter(8)
                     ],
                     controller: _montantPrevisionnelController,
                     validator: (value) => value!.isEmpty
@@ -111,7 +133,7 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                   child: TextFormField(
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(7)
+                      LengthLimitingTextInputFormatter(8)
                     ],
                     controller: _montantDefinitifController,
                     validator: (value) =>
@@ -141,6 +163,7 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: TextFormField(
+                    enabled: false,
                     controller: _userController,
                     validator: (value) => value!.isEmpty
                         ? 'Renseignez le nom du demandeur'
@@ -160,10 +183,13 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        String uid =
+                            ref.read(authRepoProvider).currentUser!.uid;
+
                         setState(() => isSaving = true);
                         final now = DateTime.now();
                         // Enregistrer la demande
-                        Demande demande = Demande(
+                        DemandeModel demande = DemandeModel(
                             objet: _objetController.text,
                             dateCreated: now,
                             dateUpdated: now,
@@ -173,14 +199,18 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                                 _montantPrevisionnelController.text),
                             service: _serviceController.text,
                             statut: 1,
-                            user: _userController.text);
+                            user: _userController.text,
+                            userUid:
+                                ref.read(authRepoProvider).currentUser!.uid);
                         await ref
                             .read(demandeRepoProvider)
                             .addNewDemande(demande);
                         setState(() => isSaving = false);
                         Utils.showSuccessMessage(message: 'Demande créée');
-                        Future.delayed(const Duration(seconds: 1),
-                            () => Navigator.pop(context));
+                        ref.read(pageIndexProvider.notifier).state = 0;
+                        clearFields();
+                        /*  Future.delayed(const Duration(seconds: 1),
+                            () => Navigator.pop(context)); */
                       } else {
                         Utils.showErrorMessage(
                             message: 'Veuillez renseigner tous les champs');

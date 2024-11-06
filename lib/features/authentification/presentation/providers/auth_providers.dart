@@ -1,5 +1,4 @@
 import 'package:demandes/features/authentification/data/repositories/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userUIDProvider = StateProvider<String>((ref) => '');

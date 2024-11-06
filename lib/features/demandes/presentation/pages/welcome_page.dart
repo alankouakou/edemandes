@@ -14,7 +14,6 @@ class WelcomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final demandeRepo = ref.watch(demandeRepoProvider);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,

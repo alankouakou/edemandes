@@ -1,5 +1,6 @@
 import 'package:demandes/core/utils.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
+import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,17 +18,23 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
+  final _nomController = TextEditingController();
+  final _prenomController = TextEditingController();
+  final _roleController = TextEditingController();
+  final _serviceController = TextEditingController();
+
   bool isVisible = true;
   bool isLoading = false;
+  bool isProcessingData = false;
 
   Future<void> signUp(String email, String password) async {}
 
   @override
   void initState() {
     isLoading = false;
+    isProcessingData = false;
   }
 
-  @override
   void toggleVisibility() {
     setState(
       () {
@@ -36,133 +43,236 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     );
   }
 
+  void resetFields() {
+    _emailController.clear();
+    _passwordController.clear();
+    _repeatPasswordController.clear();
+    _nomController.clear();
+    _prenomController.clear();
+    _roleController.clear();
+    _serviceController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(authStreamProvider, (previous, next) {
-      if (next.value != null) {
+      if (isProcessingData && next.value != null) {
         Utils.showSuccessMessage(
             message: "Utilisateur ${next.value?.uid} créé avec succès!");
-        Navigator.pop(context);
+        // Navigator.pop(context);
       }
     });
     return Scaffold(
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(title: const Text('Sign Up')),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
-                  child: Text('Nouveau compte',
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Color(0xFFF3774D),
-                          fontWeight: FontWeight.bold)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    controller: _emailController,
-                    validator: (value) => value!.isEmpty
-                        ? 'Renseignez le champ e-mail'
-                        : null, // Le login doit être unique
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        hintText: 'E-mail',
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(children: [
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Text('Nouveau compte',
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: Color(0xFFF3774D),
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _emailController,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez le champ e-mail'
+                          : null, // Le login doit être unique
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'E-mail',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  ),
+                  //Nom
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _nomController,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez le champ Nom'
+                          : null, // Le login doit être unique
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'Nom',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  ),
+                  //Prenom
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _prenomController,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez le champ prenom'
+                          : null, // Le login doit être unique
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'Prenom',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  ),
+                  //Service
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _serviceController,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez le champ service'
+                          : null, // Le login doit être unique
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'Service',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _roleController,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez le champ role'
+                          : null, // Le login doit être unique
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'Role',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  ),
+                  //Role
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _passwordController,
+                      validator: (value) => passwordValidator(value),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      obscureText: isVisible,
+                      decoration: InputDecoration(
+                        hintText: 'Mot de passe',
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: BorderSide.none),
                         fillColor: Colors.white,
-                        filled: true),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    validator: (value) => passwordValidator(value),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    obscureText: isVisible,
-                    decoration: InputDecoration(
-                      hintText: 'Mot de passe',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none),
-                      fillColor: Colors.white,
-                      filled: true,
-                      suffixIcon: IconButton(
-                        onPressed: toggleVisibility,
-                        icon: isVisible
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
+                        filled: true,
+                        suffixIcon: IconButton(
+                          onPressed: toggleVisibility,
+                          icon: isVisible
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    controller: _repeatPasswordController,
-                    validator: (value) => (value == _passwordController.text)
-                        ? null
-                        : 'Verifiez le mot de passe',
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    obscureText: isVisible,
-                    decoration: InputDecoration(
-                      hintText: 'Entrez à nouveau le mot de passe',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none),
-                      fillColor: Colors.white,
-                      filled: true,
-                      suffixIcon: IconButton(
-                        onPressed: toggleVisibility,
-                        icon: isVisible
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _repeatPasswordController,
+                      validator: (value) => (value == _passwordController.text)
+                          ? null
+                          : 'Verifiez le mot de passe',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      obscureText: isVisible,
+                      decoration: InputDecoration(
+                        hintText: 'Entrez à nouveau le mot de passe',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide.none),
+                        fillColor: Colors.white,
+                        filled: true,
+                        suffixIcon: IconButton(
+                          onPressed: toggleVisibility,
+                          icon: isVisible
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ElevatedButton(
-                    onPressed: isLoading == true
-                        ? null
-                        : () async {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              print(
-                                  'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
-                              final user = await ref
-                                  .read(authRepoProvider)
-                                  .createUserWithEmailAndPassword(
-                                      email: _emailController.text,
-                                      password: _passwordController.text);
-                              print(
-                                  'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
-                              setState(() {
-                                isLoading = false;
-                              });
-                            }
-                          },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: ElevatedButton(
+                      onPressed: isLoading == true
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  isLoading = true;
+                                  isProcessingData = true;
+                                });
+                                print(
+                                    'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
+                                await ref
+                                    .read(authRepoProvider)
+                                    .createUserWithEmailAndPassword(
+                                        email: _emailController.text,
+                                        password: _passwordController.text)
+                                    .then(
+                                  (value) {
+                                    ref
+                                        .read(userRepositoryProvider)
+                                        .registerUser(
+                                            uid: value!.uid,
+                                            email: _emailController.text,
+                                            nom: _nomController.text,
+                                            prenom: _prenomController.text,
+                                            service: _serviceController.text,
+                                            role: _roleController.text);
+
+                                    print(
+                                        'Enreigstrement des infos user dans firestore');
+                                  },
+                                );
+                                _formKey.currentState!.reset();
+
+                                print(
+                                    'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                      ),
+                      child: isLoading == true
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.white))
+                          : const Text('Créer le compte',
+                              style: TextStyle(fontSize: 16)),
                     ),
-                    child: isLoading == true
-                        ? const Center(
-                            child:
-                                CircularProgressIndicator(color: Colors.white))
-                        : const Text('Créer le compte',
-                            style: TextStyle(fontSize: 16)),
-                  ),
-                )
-              ]),
+                  )
+                ]),
+              ),
             ),
           ),
         ));

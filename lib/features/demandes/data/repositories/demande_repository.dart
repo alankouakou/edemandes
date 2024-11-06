@@ -1,13 +1,14 @@
 import 'package:demandes/features/demandes/data/data_sources/remote_datasource.dart';
-import 'package:demandes/features/demandes/data/models/demande.dart';
+import 'package:demandes/features/demandes/data/models/demande_model.dart';
 
 abstract interface class Repository {
-  Future<void> addNewDemande(Demande d);
-  Future<void> updateDemande(String docId, Demande d);
-  Future<Demande> fetch(String docId);
-  Future<List<Demande>> fetchByService(String service);
-  Future<List<Demande>> fetchByStatus(String status);
-  Future<List<Demande>> fetchAll();
+  Future<void> addNewDemande(DemandeModel d);
+  Future<void> updateDemande(String docId, DemandeModel d);
+  Future<DemandeModel> fetch(String docId);
+  Future<List<DemandeModel>> fetchByService(String service);
+  Stream<List<DemandeModel>> fetchByStatus(int status);
+  Future<List<DemandeModel>> fetchByUserUid(String userUid);
+  Future<List<DemandeModel>> fetchAll();
   Future<void> delete(String docId);
 }
 
@@ -17,7 +18,7 @@ class DemandeRepository implements Repository {
   const DemandeRepository(this.remoteDS);
 
   @override
-  Future<void> addNewDemande(Demande demande) async {
+  Future<void> addNewDemande(DemandeModel demande) async {
     return await remoteDS.add(demande);
   }
 
@@ -28,40 +29,52 @@ class DemandeRepository implements Repository {
   }
 
   @override
-  Future<Demande> fetch(String docId) async {
+  Future<DemandeModel> fetch(String docId) async {
     // TODO: implement fetch
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Demande>> fetchAll() async {
+  Future<List<DemandeModel>> fetchAll() async {
     // TODO: implement fetchAll
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Demande>> fetchByService(String service) async {
+  Future<List<DemandeModel>> fetchByService(String service) async {
     // TODO: implement fetchByService
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Demande>> fetchByStatus(String status) async {
-    // TODO: implement fetchByStatus
-    throw UnimplementedError();
+  Stream<List<DemandeModel>> fetchByStatus(int status) async* {
+    final list = remoteDS.fetchByStatus(status).map((e) {
+      return e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList();
+    });
+
+    yield* list;
   }
 
   @override
-  Future<void> updateDemande(String docId, Demande demande) async {
+  Future<void> updateDemande(String docId, DemandeModel demande) async {
     return await remoteDS.edit(docId, demande);
   }
 
-  Stream<List<Demande>> fetchStream() async* {
+  Stream<List<DemandeModel>> fetchStream() async* {
     final listDemandes = remoteDS.fetchAll().map((e) {
-      return e.docs.map((d) => Demande.fromSnapshot(d)).toList();
+      return e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList();
     });
 
     yield* listDemandes;
+  }
+
+  @override
+  Future<List<DemandeModel>> fetchByUserUid(String userUid) async {
+    final userDemandes = await remoteDS
+        .fetchByUserUid(userUid)
+        .then((e) => e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList());
+
+    return userDemandes;
   }
 }
 

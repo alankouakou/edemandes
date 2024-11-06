@@ -1,52 +1,36 @@
+import 'package:demandes/core/statuts.dart';
 import 'package:demandes/core/utils.dart';
-import 'package:demandes/features/demandes/data/models/demande.dart';
+import 'package:demandes/features/demandes/data/models/demande_model.dart';
 import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class DemandeWidget extends StatelessWidget {
-  final Demande demande;
-  const DemandeWidget({super.key, required this.demande});
+  final DemandeModel demande;
+  final VoidCallback onTap;
+  const DemandeWidget({super.key, required this.demande, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final color = switch (demande.statut) {
-      1 => Colors.blue,
-      2 => Colors.orange,
-      3 => Colors.red,
-      4 => Colors.green,
-      _ => Colors.grey
-    };
-
-    final statut = switch (demande.statut) {
-      1 => 'Nouveau',
-      2 => 'En cours',
-      3 => 'Rejeté',
-      4 => 'Approuvé',
-      _ => 'Décaissé'
-    };
-
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context, ValidationPage.route(demande));
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
             width: double.infinity,
-            height: 130,
+            height: 120,
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                color: Colors.white, borderRadius: BorderRadius.circular(8.0)),
             child: Row(
               children: [
                 Container(
-                  width: 12,
+                  width: 8,
                   decoration: BoxDecoration(
-                      color: color,
+                      color: Statut.couleur(demande.statut),
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomLeft: Radius.circular(12))),
+                          topLeft: Radius.circular(8.0),
+                          bottomLeft: Radius.circular(8.0))),
                 ),
                 Expanded(
                     child: Column(
@@ -62,20 +46,26 @@ class DemandeWidget extends StatelessWidget {
                               Utils.formatCFA(demande.montantPrevisionnel),
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
-                          trailing: Icon(Icons.circle, color: color)),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 20.0, left: 20.0),
-                        child: Divider(),
-                      ),
+                          trailing: Icon(Icons.circle,
+                              color: Statut.couleur(demande.statut))),
+                      Padding(
+                          padding:
+                              const EdgeInsets.only(right: 20.0, left: 20.0),
+                          //child: Divider(),
+                          child: Container(
+                              height: 2.0,
+                              width: double.infinity,
+                              color: Colors.grey.shade300)),
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(demande.service),
-                            Text(statut,
+                            Text(Statut.libelle(demande.statut),
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, color: color)),
+                                    fontWeight: FontWeight.bold,
+                                    color: Statut.couleur(demande.statut))),
                           ],
                         ),
                       )

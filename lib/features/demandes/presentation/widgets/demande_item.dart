@@ -1,17 +1,22 @@
-import 'package:demandes/features/demandes/data/models/demande.dart';
+import 'package:demandes/features/demandes/data/models/demande_model.dart';
 import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class DemandeItem extends StatelessWidget {
-  final Demande demande;
+  final DemandeModel demande;
   final Color color;
-  const DemandeItem({super.key, required this.color, required this.demande});
+  final VoidCallback onTap;
+  const DemandeItem(
+      {super.key,
+      required this.color,
+      required this.demande,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, ValidationPage.route(demande)),
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(

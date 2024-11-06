@@ -21,10 +21,9 @@ class _InputFormFieldState extends State<InputFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      maxLines: 5,
+      maxLines: widget.maxLines,
       validator: (value) => value!.isEmpty ? widget.validationMessage : null,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      minLines: widget.maxLines,
       decoration: InputDecoration(
           hintText: widget.hintText,
           border: OutlineInputBorder(

@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demandes/features/demandes/data/models/demande.dart';
+import 'package:demandes/features/authentification/domain/models/user.dart';
+import 'package:demandes/features/demandes/data/models/demande_model.dart';
 
 class RemoteDatasource {
   final _demandesCollection = FirebaseFirestore.instance.collection('demandes');
 
-  Future<void> add(Demande demande) async {
+  Future<void> add(DemandeModel demande) async {
     _demandesCollection.add(demande.toMap());
   }
 
-  Future<void> edit(String docId, Demande demande) async {
+  Future<void> edit(String docId, DemandeModel demande) async {
     _demandesCollection.doc(docId).update(demande.toMap());
   }
 
@@ -23,5 +24,22 @@ class RemoteDatasource {
         .orderBy('date_created', descending: true)
         .where('service', isEqualTo: serviceName)
         .snapshots();
+  }
+
+  Stream<QuerySnapshot> fetchByStatus(int statut) {
+    print('statut: $statut');
+    return _demandesCollection
+        .orderBy('date_created', descending: true)
+        .where('statut', isEqualTo: statut)
+        .snapshots();
+  }
+
+  Future<QuerySnapshot> fetchByUserUid(String userUid) async {
+    final result = await _demandesCollection
+        .orderBy('date_created', descending: true)
+        .where('userUid', isEqualTo: userUid)
+        .get();
+    print(result.toString());
+    return result;
   }
 }

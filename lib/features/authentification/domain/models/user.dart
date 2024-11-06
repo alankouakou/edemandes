@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'account.dart';
 
 class User {
   final String username;
   final String email;
-  final String password;
   final String role;
-  final Account account;
   final StatutUser statut;
   final DateTime dateExpiration;
   final DateTime dateMaj;
@@ -13,43 +13,44 @@ class User {
   const User(
       {required this.username,
       required this.email,
-      required this.password,
       required this.role,
-      required this.account,
       required this.statut,
       required this.dateExpiration,
       required this.dateMaj});
+
+  factory User.fromSnapshot(QueryDocumentSnapshot doc) {
+    return User(
+      username: doc['prenom'] + " " + doc['nom'],
+      email: doc['email'],
+      role: doc['role'],
+      statut: StatutUser.actif,
+      dateExpiration: doc['dateExpiration'].toDate(),
+      dateMaj: doc['dateMaj'].toDate(),
+    );
+  }
 
   User copyWith(
       {String? username,
       String? email,
       String? password,
       String? role,
-      Account? account,
       StatutUser? statut,
       DateTime? dateExpiration,
       DateTime? dateMaj}) {
     return User(
         username: username ?? this.username,
         email: email ?? this.email,
-        password: password ?? this.password,
         role: role ?? this.role,
-        account: account ?? this.account,
         statut: statut ?? this.statut,
         dateExpiration: dateExpiration ?? this.dateExpiration,
         dateMaj: dateMaj ?? this.dateMaj);
   }
 
-  @override
-  List<Object?> get props => [email, password];
-
   Map<String, dynamic> toJson() {
     return {
       'username': username,
       'email': email,
-      'password': password,
       'role': role,
-      'account': account,
       'statut': statut,
       'dateExpiration': dateExpiration
     };
