@@ -13,13 +13,27 @@ class Statut {
 
   static Color couleur(int code) => switch (code) {
         1 => Colors.blue,
-        2 => Colors.purple,
-        3 => Colors.orange,
+        2 => Colors.orange,
+        3 => Colors.purple,
         4 => Colors.green,
         5 => Colors.red,
         6 => Colors.grey,
         _ => Colors.grey
       };
+
+  static int accept(statutActuel) {
+    return switch (statutActuel) {
+      Statut.pendingVisaManager => Statut.pendingVisaRAF,
+      Statut.pendingVisaRAF => Statut.pendingVisaCoordonnateur,
+      Statut.pendingVisaCoordonnateur => Statut.approved,
+      Statut.approved => Statut.paid,
+      _ => statutActuel
+    };
+  }
+
+  static int reject() {
+    return Statut.rejected;
+  }
 
   static int StatutPendingfromRole(String role) => switch (role) {
         'chef_service' => Statut.pendingVisaManager,
@@ -28,10 +42,22 @@ class Statut {
         _ => 0
       };
 
+  static bool locked(String role, int statut) {
+    return switch (role) {
+      'chef_service' => statut != Statut.pendingVisaManager,
+      'raf' => statut != Statut.pendingVisaRAF,
+      'coordonnateur' => statut != Statut.pendingVisaCoordonnateur,
+      'comptable' => statut != Statut.approved,
+      'user' => statut != Statut.created,
+      _ => statut != Statut.created
+    };
+  }
+
   static const int pendingVisaManager = 1;
   static const int pendingVisaRAF = 2;
   static const int pendingVisaCoordonnateur = 3;
 
+  static const int created = 1;
   static const int approved = 4;
   static const int rejected = 5;
   static const int paid = 6;

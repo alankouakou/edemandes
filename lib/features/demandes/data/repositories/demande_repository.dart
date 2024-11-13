@@ -5,7 +5,7 @@ abstract interface class Repository {
   Future<void> addNewDemande(DemandeModel d);
   Future<void> updateDemande(String docId, DemandeModel d);
   Future<DemandeModel> fetch(String docId);
-  Future<List<DemandeModel>> fetchByService(String service);
+  Stream<List<DemandeModel>> fetchByService(String service);
   Stream<List<DemandeModel>> fetchByStatus(int status);
   Future<List<DemandeModel>> fetchByUserUid(String userUid);
   Future<List<DemandeModel>> fetchAll();
@@ -41,9 +41,12 @@ class DemandeRepository implements Repository {
   }
 
   @override
-  Future<List<DemandeModel>> fetchByService(String service) async {
-    // TODO: implement fetchByService
-    throw UnimplementedError();
+  Stream<List<DemandeModel>> fetchByService(String service) async* {
+    final list = remoteDS.fetchByService(service).map((e) {
+      return e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList();
+    });
+
+    yield* list;
   }
 
   @override

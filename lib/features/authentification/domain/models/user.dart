@@ -6,6 +6,7 @@ class User {
   final String username;
   final String email;
   final String role;
+  final String service;
   final StatutUser statut;
   final DateTime dateExpiration;
   final DateTime dateMaj;
@@ -14,6 +15,7 @@ class User {
       {required this.username,
       required this.email,
       required this.role,
+      required this.service,
       required this.statut,
       required this.dateExpiration,
       required this.dateMaj});
@@ -23,6 +25,7 @@ class User {
       username: doc['prenom'] + " " + doc['nom'],
       email: doc['email'],
       role: doc['role'],
+      service: doc['service'],
       statut: StatutUser.actif,
       dateExpiration: doc['dateExpiration'].toDate(),
       dateMaj: doc['dateMaj'].toDate(),
@@ -34,6 +37,7 @@ class User {
       String? email,
       String? password,
       String? role,
+      String? service,
       StatutUser? statut,
       DateTime? dateExpiration,
       DateTime? dateMaj}) {
@@ -41,6 +45,7 @@ class User {
         username: username ?? this.username,
         email: email ?? this.email,
         role: role ?? this.role,
+        service: service ?? this.service,
         statut: statut ?? this.statut,
         dateExpiration: dateExpiration ?? this.dateExpiration,
         dateMaj: dateMaj ?? this.dateMaj);
@@ -51,6 +56,7 @@ class User {
       'username': username,
       'email': email,
       'role': role,
+      'service': service,
       'statut': statut,
       'dateExpiration': dateExpiration
     };

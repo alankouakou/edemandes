@@ -51,7 +51,7 @@ class AuthRepository {
       } else if (e.code == 'user-disabled') {
         message = 'Votre compte est Inactif';
       } else if (e.code == 'network-request-failed') {
-        message = 'Verifiez la connexion Internet!';
+        message = 'Echec de connexion: Verifiez la connexion Internet!';
       } else {
         message = e.code;
       }

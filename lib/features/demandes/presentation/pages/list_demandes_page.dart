@@ -31,7 +31,7 @@ class ListDemandesPage extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Demandes à traiter', style: AppTheme.pageTitleStyle),
+                  Text('Toutes les demandes', style: AppTheme.pageTitleStyle),
                 ],
               ),
             ),

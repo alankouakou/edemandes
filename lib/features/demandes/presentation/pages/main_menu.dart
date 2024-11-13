@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final pageIndexProvider = StateProvider<int>((ref) => 0);
-final roleProvider = StateProvider<String>((ref) => '');
 
 class MainMenu extends ConsumerWidget {
   const MainMenu({super.key});
@@ -28,8 +27,10 @@ class MainMenu extends ConsumerWidget {
   List<NavigationDestination> getNavDestinations(String role) {
     final navDestinations = switch (role) {
       'user' => userNavigationDestinations,
+      'chef_service' => chefServiceDestinations,
       'raf' => rafNavigationDestinations,
       'coordonnateur' => coordonnateurNavigationDestinations,
+      'comptable' => comptableNavigationDestinations,
       'admin' => adminNavigationDestinations,
       _ => adminNavigationDestinations
     };
@@ -40,9 +41,7 @@ class MainMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(pageIndexProvider);
-    // final uid = ref.watch(authRepoProvider).currentUser!.uid;
     final asyncUser = ref.watch(userNotifierProvider);
-    //const role = 'user';
 
     /*    ref.listen(pageIndexProvider, (previous, next) {
       print('old index: $previous next index: $next');

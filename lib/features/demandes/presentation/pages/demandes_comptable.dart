@@ -1,6 +1,5 @@
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
-
-import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
+import 'package:demandes/features/demandes/presentation/pages/validation_comptable.dart';
 
 import 'package:demandes/features/demandes/presentation/providers/demande_stream_provider.dart';
 import 'package:demandes/features/demandes/presentation/widgets/demande_widget.dart';
@@ -25,7 +24,7 @@ class DemandesComptable extends ConsumerWidget {
             return DemandeWidget(
               demande: dataList[index],
               onTap: () => Navigator.push(
-                  context, ValidationPage.route(dataList[index])),
+                  context, ValidationComptable.route(dataList[index])),
             );
           },
         ),

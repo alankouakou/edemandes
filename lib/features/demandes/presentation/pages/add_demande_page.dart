@@ -61,7 +61,7 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
     user.when(
         data: (data) {
           _userController.text = data.username;
-          //_serviceController.text = ;
+          _serviceController.text = data.service;
         },
         error: (error, stackTrace) => null,
         loading: () => null);
@@ -80,156 +80,139 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Form(
               key: _formKey,
-              child: Column(children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
-                  child:
-                      Text('Nouvelle Demande', style: AppTheme.pageTitleStyle),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    controller: _objetController,
-                    maxLines: 5,
-                    validator: (value) => value!.isEmpty
-                        ? 'Renseignez l\'Objet de la demande'
-                        : null, // Le login doit être unique
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        hintText: 'Objet de la demande',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide.none),
-                        fillColor: Colors.white,
-                        filled: true),
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Text('Nouvelle Demande',
+                        style: AppTheme.pageTitleStyle),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(8)
-                    ],
-                    controller: _montantPrevisionnelController,
-                    validator: (value) => value!.isEmpty
-                        ? 'Renseignez le montant'
-                        : null, // Le login doit être unique
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    keyboardType: TextInputType.number,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      controller: _objetController,
+                      maxLines: 5,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez l\'Objet de la demande'
+                          : null, // Le login doit être unique
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'Objet de la demande',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(8)
+                      ],
+                      controller: _montantPrevisionnelController,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez le montant'
+                          : null, // Le login doit être unique
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      keyboardType: TextInputType.number,
 
-                    decoration: InputDecoration(
-                        hintText: 'Montant prévisionnel',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide.none),
-                        fillColor: Colors.white,
-                        filled: true,
-                        suffixText: 'F CFA'),
+                      decoration: InputDecoration(
+                          hintText: 'Montant prévisionnel',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true,
+                          suffixText: 'F CFA'),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(8)
-                    ],
-                    controller: _montantDefinitifController,
-                    validator: (value) =>
-                        value!.isEmpty ? 'Renseignez le montant' : null,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        hintText: 'Montant définitif', suffixText: 'F CFA'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      enabled: false,
+                      controller: _serviceController,
+                      validator: (value) =>
+                          value!.isEmpty ? 'Renseignez le service' : null,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'Service du demandeur',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    controller: _serviceController,
-                    validator: (value) =>
-                        value!.isEmpty ? 'Renseignez le service' : null,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        hintText: 'Service du demandeur',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide.none),
-                        fillColor: Colors.white,
-                        filled: true),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextFormField(
+                      enabled: false,
+                      controller: _userController,
+                      validator: (value) => value!.isEmpty
+                          ? 'Renseignez le nom du demandeur'
+                          : null,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                          hintText: 'Nom demandeur',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: TextFormField(
-                    enabled: false,
-                    controller: _userController,
-                    validator: (value) => value!.isEmpty
-                        ? 'Renseignez le nom du demandeur'
-                        : null,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        hintText: 'Nom demandeur',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide.none),
-                        fillColor: Colors.white,
-                        filled: true),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        String uid =
-                            ref.read(authRepoProvider).currentUser!.uid;
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          String uid =
+                              ref.read(authRepoProvider).currentUser!.uid;
 
-                        setState(() => isSaving = true);
-                        final now = DateTime.now();
-                        // Enregistrer la demande
-                        DemandeModel demande = DemandeModel(
-                            objet: _objetController.text,
-                            dateCreated: now,
-                            dateUpdated: now,
-                            montantDefinitif:
-                                double.parse(_montantDefinitifController.text),
-                            montantPrevisionnel: double.parse(
-                                _montantPrevisionnelController.text),
-                            service: _serviceController.text,
-                            statut: 1,
-                            user: _userController.text,
-                            userUid:
-                                ref.read(authRepoProvider).currentUser!.uid);
-                        await ref
-                            .read(demandeRepoProvider)
-                            .addNewDemande(demande);
-                        setState(() => isSaving = false);
-                        Utils.showSuccessMessage(message: 'Demande créée');
-                        ref.read(pageIndexProvider.notifier).state = 0;
-                        clearFields();
-                        /*  Future.delayed(const Duration(seconds: 1),
-                            () => Navigator.pop(context)); */
-                      } else {
-                        Utils.showErrorMessage(
-                            message: 'Veuillez renseigner tous les champs');
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 50),
-                        foregroundColor: Colors.white,
-                        backgroundColor: AppPalette.buttonBackgroundColor,
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide.none,
-                            borderRadius: BorderRadius.circular(8.0))),
-                    child: isSaving == true
-                        ? const Center(child: CircularProgressIndicator())
-                        : const Text('Enregistrer la demande',
-                            style: TextStyle(fontSize: 16)),
-                  ),
-                )
-              ]),
+                          setState(() => isSaving = true);
+                          final now = DateTime.now();
+                          // Enregistrer la demande
+                          DemandeModel demande = DemandeModel(
+                              objet: _objetController.text,
+                              dateCreated: now,
+                              dateUpdated: now,
+                              montantDefinitif: 0.0,
+                              montantPrevisionnel: double.parse(
+                                  _montantPrevisionnelController.text),
+                              service: _serviceController.text,
+                              statut: 1,
+                              user: _userController.text,
+                              userUid: uid);
+                          await ref
+                              .read(demandeRepoProvider)
+                              .addNewDemande(demande);
+                          setState(() => isSaving = false);
+                          Utils.showSuccessMessage(message: 'Demande créée');
+                          ref.read(pageIndexProvider.notifier).state = 0;
+                          clearFields();
+                        } else {
+                          Utils.showErrorMessage(
+                              message: 'Veuillez renseigner tous les champs');
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 50),
+                          foregroundColor: Colors.white,
+                          backgroundColor: AppPalette.buttonBackgroundColor,
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(8.0))),
+                      child: isSaving == true
+                          ? const Center(child: CircularProgressIndicator())
+                          : const Text('Enregistrer la demande',
+                              style: TextStyle(fontSize: 16)),
+                    ),
+                  )
+                ]),
+              ),
             ),
           ),
         ));

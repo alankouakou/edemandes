@@ -4,8 +4,13 @@ import 'package:gap/gap.dart';
 class DisplayFieldWidget extends StatelessWidget {
   final String title;
   final String text;
+  final Color color;
+
   const DisplayFieldWidget(
-      {super.key, required this.title, required this.text});
+      {super.key,
+      required this.title,
+      required this.text,
+      this.color = Colors.black});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +31,10 @@ class DisplayFieldWidget extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child:
-                Text(text, maxLines: 10, style: const TextStyle(fontSize: 16))),
+            child: Text(text,
+                maxLines: 10,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: color, fontSize: 16))),
       ],
     );
   }

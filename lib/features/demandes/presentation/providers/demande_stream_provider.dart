@@ -23,10 +23,10 @@ final demandeStreamProvider = StreamProvider(
   },
 );
 
-final serviceStreamProvider = StreamProvider(
-  (ref) {
+final serviceStreamProvider = StreamProviderFamily(
+  (ref, String service) {
     final demandeRepo = DemandeRepository(remoteDS);
-    return demandeRepo.fetchByStatus(Statut.pendingVisaManager);
+    return demandeRepo.fetchByService(service);
   },
 );
 

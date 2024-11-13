@@ -36,6 +36,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+
     super.dispose();
   }
 
@@ -153,10 +154,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                       email: _emailController.text.trim(),
                                       password:
                                           _passwordController.text.trim());
+
+                              if (usercredentials == null) {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
                             }
-                            setState(() {
-                              isLoading = false;
-                            });
                           },
                           style: OutlinedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50.0),

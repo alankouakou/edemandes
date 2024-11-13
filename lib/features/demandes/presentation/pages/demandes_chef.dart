@@ -1,4 +1,5 @@
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
+import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 
 import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
 
@@ -12,10 +13,11 @@ class DemandesChefService extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final serviceName = ref.watch(serviceNameProvider);
     final userUid = ref.watch(authRepoProvider).currentUser!.uid;
 
     print('User demandesByStatusPage - User UID: $userUid, ');
-    final statusDemandes = ref.watch(serviceStreamProvider);
+    final statusDemandes = ref.watch(serviceStreamProvider(serviceName));
 
     //
     //

@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '137296936888',
     projectId: 'edemandes-225ce',
     authDomain: 'edemandes-225ce.firebaseapp.com',
-    storageBucket: 'edemandes-225ce.appspot.com',
+    storageBucket: 'edemandes-225ce.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -60,7 +60,7 @@ class DefaultFirebaseOptions {
     appId: '1:137296936888:android:f48637916d0c216e87594d',
     messagingSenderId: '137296936888',
     projectId: 'edemandes-225ce',
-    storageBucket: 'edemandes-225ce.appspot.com',
+    storageBucket: 'edemandes-225ce.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -68,7 +68,8 @@ class DefaultFirebaseOptions {
     appId: '1:137296936888:ios:2a836b58278269b087594d',
     messagingSenderId: '137296936888',
     projectId: 'edemandes-225ce',
-    storageBucket: 'edemandes-225ce.appspot.com',
+    storageBucket: 'edemandes-225ce.firebasestorage.app',
     iosBundleId: 'ci.ugp.demandes',
   );
+
 }

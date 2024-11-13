@@ -11,6 +11,7 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 });
 
 final auth = Provider((ref) => ref.watch(authRepoProvider));
+final roleProvider = StateProvider<String>((ref) => '');
 
 final userNotifierProvider =
     AutoDisposeAsyncNotifierProvider<UserNotifier, User>(
@@ -19,16 +20,20 @@ final userNotifierProvider =
 
 /*
 'user'
-'manager'
-'validator'
-'accountant'
 'admin'
-
-
-final currentUserRoleProvider = StateProvider<String>((ref) => '');
-final userNameProvider = StateProvider<String>((ref) => 'username');
+'chef_service'
+'raf'
+'coordonnateur'
 */
 
+final serviceNameProvider = StateProvider<String>((ref) {
+  final user = ref.watch(futureUserProvider);
+  return user.when(
+    data: (data) => data.service,
+    loading: () => '',
+    error: (e, s) => '',
+  );
+});
 final futureUserProvider = FutureProvider<User>((ref) async {
   final uid = ref.watch(authRepoProvider).currentUser!.uid;
 

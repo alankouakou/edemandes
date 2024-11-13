@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demandes/core/statuts.dart';
 import 'package:demandes/features/authentification/domain/models/user.dart';
 import 'package:demandes/features/demandes/data/models/demande_model.dart';
 
@@ -23,6 +24,7 @@ class RemoteDatasource {
     return _demandesCollection
         .orderBy('date_created', descending: true)
         .where('service', isEqualTo: serviceName)
+        .where('statut', isEqualTo: Statut.pendingVisaManager)
         .snapshots();
   }
 

@@ -21,6 +21,14 @@ class AppTheme {
       backgroundColor: AppPalette.appPanelLightBackgroundColor,
     ),
     scaffoldBackgroundColor: AppPalette.scaffoldLightBackgroundColor,
+    dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+      fillColor: Colors.white,
+      filled: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+      border: _border.copyWith(borderSide: BorderSide.none),
+      focusedBorder: _border,
+    )),
     inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.white,
       filled: true,
