@@ -1,5 +1,6 @@
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/budget/data/models/demande_budget.dart';
 import 'package:demandes/features/budget/presentation/providers/budget_provider.dart';
 import 'package:demandes/features/demandes/presentation/widgets/display_field.dart';
@@ -30,8 +31,7 @@ class SoldeWidget extends ConsumerWidget {
               print(e.toString());
               return Center(child: Text(e.toString()));
             },
-            loading: () => const Center(
-                child: CircularProgressIndicator(color: Colors.blue)))
+            loading: () => const Loading())
       ],
     );
   }

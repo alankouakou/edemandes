@@ -1,6 +1,7 @@
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
 import 'package:demandes/core/statuts.dart';
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 import 'package:demandes/features/budget/data/models/demande_budget.dart';
 import 'package:demandes/features/budget/presentation/pages/widgets/solde_widget.dart';
@@ -176,7 +177,7 @@ class ValidationDemandeBudgetPage extends ConsumerWidget {
         }
       },
       error: (e, s) => Center(child: Text(e.toString())),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Loading(),
     ));
   }
 }

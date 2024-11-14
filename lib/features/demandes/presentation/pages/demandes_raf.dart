@@ -1,3 +1,4 @@
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
 import 'package:demandes/features/demandes/presentation/providers/demande_stream_provider.dart';
@@ -30,7 +31,7 @@ class DemandesRaf extends ConsumerWidget {
           },
         ),
         error: (e, s) => Center(child: Text(s.toString())),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Loading(),
       ),
     );
   }

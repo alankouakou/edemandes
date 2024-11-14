@@ -2,6 +2,7 @@ import 'package:demandes/core/statuts.dart';
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/budget/data/models/demande_budget.dart';
 import 'package:demandes/features/budget/presentation/providers/budget_provider.dart';
 import 'package:demandes/features/demandes/presentation/pages/main_menu.dart';
@@ -127,7 +128,7 @@ class _BudgetPageState extends ConsumerState<NewDemandeBudgetPage> {
                           side: BorderSide.none,
                           borderRadius: BorderRadius.circular(8.0))),
                   child: isSaving == true
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Loading()
                       : const Text('Enregistrer',
                           style: TextStyle(fontSize: 16)),
                 ),

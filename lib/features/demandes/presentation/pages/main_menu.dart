@@ -1,3 +1,4 @@
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 import 'package:demandes/features/demandes/presentation/pages/navigation_menus.dart';
@@ -69,11 +70,11 @@ class MainMenu extends ConsumerWidget {
                 destinations: getNavDestinations(user.role),
               ),
           error: (e, s) => null,
-          loading: () => const Center(child: CircularProgressIndicator())),
+          loading: () => const Loading()),
       body: asyncUser.when(
         data: (user) => getBody(user.role)[currentIndex],
         error: (e, s) => Center(child: Text(e.toString())),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Loading(),
       ),
     );
   }

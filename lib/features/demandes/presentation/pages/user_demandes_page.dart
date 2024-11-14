@@ -1,3 +1,4 @@
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/demandes/presentation/pages/details_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/providers/demande_providers.dart';
@@ -34,7 +35,7 @@ class UserDemandesPage extends ConsumerWidget {
               },
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Loading();
           } else if (snapshot.hasError) {
             print(snapshot.error.toString());
             return Center(child: Text(snapshot.error.toString()));

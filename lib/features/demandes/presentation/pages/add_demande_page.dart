@@ -1,6 +1,7 @@
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 import 'package:demandes/features/demandes/data/models/demande_model.dart';
@@ -206,7 +207,7 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                               side: BorderSide.none,
                               borderRadius: BorderRadius.circular(8.0))),
                       child: isSaving == true
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const Loading()
                           : const Text('Enregistrer la demande',
                               style: TextStyle(fontSize: 16)),
                     ),

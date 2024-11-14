@@ -1,4 +1,5 @@
 import 'package:demandes/core/themes/app_palette.dart';
+import 'package:demandes/core/widgets/loading_white.dart';
 import 'package:demandes/features/authentification/data/repositories/user_repository.dart';
 import 'package:demandes/features/authentification/presentation/pages/reset_password_page.dart';
 import 'package:demandes/features/authentification/presentation/pages/signup_page.dart';
@@ -166,8 +167,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             minimumSize: const Size(double.infinity, 50.0),
                           ),
                           child: isLoading == true
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white)
+                              ? const LoadingWhite()
                               : const Text(
                                   'Login',
                                   style: TextStyle(

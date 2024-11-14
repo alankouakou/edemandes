@@ -3,6 +3,7 @@ import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
 import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/budget/presentation/pages/new_demande_budget_page.dart';
+import 'package:demandes/features/budget/presentation/pages/widgets/solde_widget.dart';
 import 'package:demandes/features/budget/presentation/providers/budget_provider.dart';
 import 'package:demandes/features/demandes/presentation/widgets/display_field.dart';
 
@@ -26,6 +27,10 @@ class BudgetPage extends ConsumerWidget {
                 if (demande == null) {
                   return Column(
                     children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
+                        child: SoldeWidget(),
+                      ),
                       const Padding(
                           padding: EdgeInsets.only(bottom: 10.0),
                           child: Text('Aucune demande en cours')),
@@ -58,6 +63,10 @@ class BudgetPage extends ConsumerWidget {
                       padding: EdgeInsets.only(bottom: 20.0),
                       child: Text('Budget', style: AppTheme.pageTitleStyle),
                     ),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: SoldeWidget(),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: DisplayFieldWidget(
@@ -68,7 +77,7 @@ class BudgetPage extends ConsumerWidget {
                 }
               },
               error: (e, s) => null,
-              loading: () => const LoadingWidget())),
+              loading: () => const Loading())),
     );
   }
 }

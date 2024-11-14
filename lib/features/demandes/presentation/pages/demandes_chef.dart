@@ -1,3 +1,4 @@
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 
@@ -34,7 +35,7 @@ class DemandesChefService extends ConsumerWidget {
           },
         ),
         error: (e, s) => Center(child: Text(s.toString())),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Loading(),
       ),
     );
   }

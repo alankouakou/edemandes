@@ -1,5 +1,6 @@
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/themes/app_theme.dart';
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/demandes/presentation/pages/add_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/details_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
@@ -48,9 +49,7 @@ class ListDemandesPage extends ConsumerWidget {
                         },
                       ),
                   error: (e, s) => Center(child: Text(s.toString())),
-                  loading: () => const Center(
-                      child: CircularProgressIndicator(
-                          color: AppPalette.buttonBackgroundColor)))),
+                  loading: () => const Loading())),
         ]),
       ),
     );

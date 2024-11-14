@@ -1,6 +1,7 @@
 import 'package:demandes/core/statuts.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 
 import 'package:demandes/features/demandes/data/models/demande_model.dart';
@@ -148,8 +149,7 @@ class ValidationComptable extends ConsumerWidget {
           },
           error: (e, s) =>
               const Center(child: Text('ùne erreur est survenue!')),
-          loading: () => const Center(
-              child: CircularProgressIndicator(color: Colors.blue)),
+          loading: () => const Loading(),
         ));
   }
 }

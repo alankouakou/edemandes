@@ -1,5 +1,6 @@
 import 'package:demandes/core/services.dart';
 import 'package:demandes/core/utils.dart';
+import 'package:demandes/core/widgets/loading_white.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -256,9 +257,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                             minimumSize: const Size(double.infinity, 50),
                           ),
                           child: isLoading == true
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                      color: Colors.white))
+                              ? const LoadingWhite()
                               : const Text('Créer le compte',
                                   style: TextStyle(fontSize: 16)),
                         ),

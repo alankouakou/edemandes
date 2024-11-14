@@ -1,3 +1,4 @@
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/pages/login_page.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/demandes/presentation/pages/list_demandes_page.dart';
@@ -16,7 +17,7 @@ class AuthStatePage extends ConsumerWidget {
         stream: auth.authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Loading();
           } else {
             if (snapshot.hasData) {
               if (auth.currentUser == null) {

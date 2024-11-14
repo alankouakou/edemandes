@@ -1,7 +1,9 @@
 import 'package:demandes/core/statuts.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
+import 'package:demandes/features/budget/data/models/decaissement.dart';
 import 'package:demandes/features/budget/presentation/pages/widgets/solde_widget.dart';
 import 'package:demandes/features/budget/presentation/providers/budget_provider.dart';
 
@@ -161,6 +163,23 @@ class ValidationPage extends ConsumerWidget {
                                                     .notifier)
                                                 .deduireDemande(demande);
                                           }
+                                          // TODO Créer Decaissement
+                                          final decaissement =
+                                              DecaissementModel(
+                                                  dateDecaissement:
+                                                      DateTime.timestamp(),
+                                                  cumulDecaisse: 0.0,
+                                                  montantDefinitif:
+                                                      demande.montantDefinitif,
+                                                  montantPrevisionnel: demande
+                                                      .montantPrevisionnel,
+                                                  objetDemande: demande.objet,
+                                                  idDemande: demande.docId,
+                                                  solde: 0.0);
+                                          ref
+                                              .read(budgetRepoProvider)
+                                              .addDecaissement(decaissement);
+
                                           // Utils.showSuccessMessage(
                                           //     message: 'Demande acceptée!');
                                           Navigator.pop(context);
@@ -177,8 +196,7 @@ class ValidationPage extends ConsumerWidget {
           },
           error: (e, s) =>
               const Center(child: Text('ùne erreur est survenue!')),
-          loading: () => const Center(
-              child: CircularProgressIndicator(color: Colors.blue)),
+          loading: () => const Loading(),
         ));
   }
 }

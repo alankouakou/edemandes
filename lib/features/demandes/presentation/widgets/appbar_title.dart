@@ -1,3 +1,4 @@
+import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class AppBarTitle extends ConsumerWidget {
               print(snapshot.error.toString());
               return Text(snapshot.error.toString());
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Loading();
             } else {
               return const Text('Pas de données');
             }
