@@ -1,11 +1,8 @@
-import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/widgets/loading_white.dart';
-import 'package:demandes/features/authentification/data/repositories/user_repository.dart';
+
 import 'package:demandes/features/authentification/presentation/pages/reset_password_page.dart';
 import 'package:demandes/features/authentification/presentation/pages/signup_page.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
-import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
-import 'package:demandes/features/demandes/presentation/pages/main_menu.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,4 +1,3 @@
-import 'package:demandes/core/themes/app_palette.dart';
 import 'package:flutter/material.dart';
 
 class LoadingWhite extends StatelessWidget {

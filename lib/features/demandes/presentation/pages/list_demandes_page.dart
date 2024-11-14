@@ -1,6 +1,9 @@
+import 'package:demandes/core/printing/printing_service.dart';
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/widgets/loading.dart';
+import 'package:demandes/features/budget/presentation/providers/budget_provider.dart';
+import 'package:demandes/features/budget/presentation/providers/decaissement_notifier.dart';
 import 'package:demandes/features/demandes/presentation/pages/add_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/details_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/validation_page.dart';
@@ -8,6 +11,7 @@ import 'package:demandes/features/demandes/presentation/providers/demande_stream
 import 'package:demandes/features/demandes/presentation/widgets/demande_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ListDemandesPage extends ConsumerWidget {
   const ListDemandesPage({super.key});
@@ -27,12 +31,24 @@ class ListDemandesPage extends ConsumerWidget {
           Container(
             decoration: const BoxDecoration(color: Colors.white),
             height: 50,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Toutes les demandes', style: AppTheme.pageTitleStyle),
+                  //const Text('Toutes les demandes',
+                  //    style: AppTheme.pageTitleStyle),
+                  IconButton(
+                      onPressed: () async {
+                        //TODO Récuperer les decaissements et imprimer le rapport
+                        final decaissements = await ref
+                            .read(decaissementsNotifierProvider.notifier)
+                            .fetchAll();
+                        await PrintingService.printReport(decaissements);
+                      },
+                      icon: const FaIcon(FontAwesomeIcons.solidFilePdf,
+                          color: AppPalette.buttonBackgroundColor))
                 ],
               ),
             ),

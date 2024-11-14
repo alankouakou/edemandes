@@ -1,3 +1,4 @@
+import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
@@ -62,7 +63,7 @@ class MainMenu extends ConsumerWidget {
       bottomNavigationBar: asyncUser.when(
           data: (user) => NavigationBar(
                 selectedIndex: currentIndex,
-                indicatorColor: Colors.blue,
+                indicatorColor: AppPalette.buttonBackgroundColor,
                 backgroundColor: Colors.white,
                 onDestinationSelected: (value) {
                   ref.read(pageIndexProvider.notifier).state = value;

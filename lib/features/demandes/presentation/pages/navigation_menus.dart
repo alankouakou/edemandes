@@ -1,3 +1,4 @@
+import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/features/authentification/presentation/pages/signup_page.dart';
 
 import 'package:demandes/features/budget/presentation/pages/budget_page.dart';
@@ -44,93 +45,109 @@ const List<Widget> adminPages = [
 
 const userNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
-      icon: Icon(Icons.home, color: Colors.blue),
+      icon: Icon(Icons.home, color: AppPalette.buttonBackgroundColor),
       selectedIcon: Icon(Icons.home, color: Colors.white),
       label: 'Mes demandes'),
   NavigationDestination(
-      icon: Icon(Icons.add_circle, color: Colors.blue),
+      icon: Icon(Icons.add_circle, color: AppPalette.buttonBackgroundColor),
       selectedIcon: Icon(Icons.add_circle, color: Colors.white),
       label: 'Nouveau'),
 ];
 
 const chefServiceDestinations = <NavigationDestination>[
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.envelopeOpenText, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.envelopeOpenText,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon:
           FaIcon(FontAwesomeIcons.envelopeOpenText, color: Colors.white),
       label: 'Mes demandes'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.clock, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.clock,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
       label: 'En attente'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.file, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.file,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.file, color: Colors.white),
       label: 'Nouveau'),
 ];
 
 const rafNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.clock, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.clock,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
       label: 'En attente'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.file, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.file,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.file, color: Colors.white),
       label: 'Nouveau'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.rectangleList, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.rectangleList,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.rectangleList, color: Colors.white),
       label: 'Tous'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.coins, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.coins,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.coins, color: Colors.white),
       label: 'Budget'),
 ];
 
 const coordonnateurNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.clock, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.clock,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
       label: 'En attente'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.rectangleList, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.rectangleList,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.rectangleList, color: Colors.white),
       label: 'Tous'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.coins, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.coins,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.coins, color: Colors.white),
       label: 'Budget'),
 ];
 
 const adminNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.envelopeOpenText, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.envelopeOpenText,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon:
           FaIcon(FontAwesomeIcons.envelopeOpenText, color: Colors.white),
       label: 'Mes demandes'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.clock, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.clock,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
       label: 'En attente'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.file, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.file,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.file, color: Colors.white),
       label: 'Nouveau'),
 ];
 
 const comptableNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.envelopeOpenText, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.envelopeOpenText,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon:
           FaIcon(FontAwesomeIcons.envelopeOpenText, color: Colors.white),
       label: 'Mes demandes'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.clock, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.clock,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
       label: 'En attente'),
   NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.file, color: Colors.blue),
+      icon: FaIcon(FontAwesomeIcons.file,
+          color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.file, color: Colors.white),
       label: 'Nouveau'),
 ];

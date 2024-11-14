@@ -37,6 +37,10 @@ class BudgetRepository {
     return await budgetDataSource.getListDemande();
   }
 
+  Future<List<DecaissementModel>> getListeDecaissements() async {
+    return await budgetDataSource.fetchDecaissements();
+  }
+
   Future<DemandeBudget?> getPending() async {
     return await budgetDataSource.getPending();
   }

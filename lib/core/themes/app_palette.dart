@@ -5,7 +5,7 @@ class AppPalette {
   static const Color appPanelLightBackgroundColor = Colors.white;
   static const Color scaffoldLightBackgroundColor = Color(0xFFECEFF1);
   static const Color scaffoldDarkBackgroundColor = Colors.black87;
-  static const Color buttonBackgroundColor = Color(0xFF1976D2);
+  static const Color buttonBackgroundColor = Color(0xFF03519E);
   static const Color transparentColor = Colors.transparent;
   static const Color colorSaumon = Color(0xFFF3774D);
   static const Color colorTurquoise = Colors.teal;

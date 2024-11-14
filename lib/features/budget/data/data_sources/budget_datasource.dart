@@ -20,16 +20,21 @@ class BudgetDatasource {
     _decaisssementsCollection.doc(docId).update(decaissement.toMap());
   }
 
+  Future<List<DecaissementModel>> fetchDecaissements() async {
+    final results =
+        await _decaisssementsCollection.orderBy('date_decaissement').get();
+    return results.docs.map((item) {
+      return DecaissementModel.fromSnapshot(item);
+    }).toList();
+  }
+
   Future<void> addDemande(DemandeBudget demandeBudget) async {
     _demandeBudgetCollection.add(demandeBudget.toMap());
   }
 
   Future<void> updateDemande(String docId, DemandeBudget demandeBudget) async {
-    if (docId == null || demandeBudget == null) {
-      print('***** Le docId est nul ****, ${demandeBudget.toString()}');
-    } else {
-      await _demandeBudgetCollection.doc(docId).update(demandeBudget.toMap());
-    }
+    await _demandeBudgetCollection.doc(docId).update(demandeBudget.toMap());
+
     print('Update demande *** - $docId - ***');
   }
 
