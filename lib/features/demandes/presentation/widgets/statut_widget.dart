@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:demandes/core/statuts.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 class StatutDemandeWidget extends StatelessWidget {
   final int statut;
@@ -9,16 +11,18 @@ class StatutDemandeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         // width: 150,
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            color: Statut.couleur(statut)),
+            border: const Border.fromBorderSide(BorderSide.none),
+            borderRadius: BorderRadius.circular(2.0),
+            color: Statut.couleur(statut).withOpacity(0.1)),
         child: Center(
           child: Text(Statut.libelle(statut),
-              style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold)),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Statut.couleur(statut),
+              )),
         ));
   }
 }

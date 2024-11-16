@@ -9,8 +9,8 @@ import 'package:demandes/features/demandes/presentation/widgets/demande_widget.d
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DemandesChefService extends ConsumerWidget {
-  const DemandesChefService({super.key});
+class DemandesInitieesService extends ConsumerWidget {
+  const DemandesInitieesService({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

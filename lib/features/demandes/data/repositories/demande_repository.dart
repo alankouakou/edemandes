@@ -49,6 +49,14 @@ class DemandeRepository implements Repository {
     yield* list;
   }
 
+  Stream<List<DemandeModel>> fetchAllByService(String service) async* {
+    final list = remoteDS.fetchAllByService(service).map((e) {
+      return e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList();
+    });
+
+    yield* list;
+  }
+
   @override
   Stream<List<DemandeModel>> fetchByStatus(int status) async* {
     final list = remoteDS.fetchByStatus(status).map((e) {
@@ -79,15 +87,12 @@ class DemandeRepository implements Repository {
 
     return userDemandes;
   }
+
+  Future<List<DemandeModel>> getByService(String serviceName) async {
+    final serviceDemandes = await remoteDS
+        .getByService(serviceName)
+        .then((e) => e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList());
+
+    return serviceDemandes;
+  }
 }
-
-
-/*
-  final String docId;
-  final String id;
-  final String objet;
-  final double montantPrevisionnel;
-  final double montantDepense;
-  final DateTime dateCreated;
-  final DateTime dateUpdated;
-  */

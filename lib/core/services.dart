@@ -1,8 +1,8 @@
 const services = [
-  {'code': 'comptabilite', 'libelle': 'Comptabilité'},
-  {'code': 'direction_generale', 'libelle': 'Direction Générale'},
-  {'code': 'genie_civil', 'libelle': 'Génie Civil'},
-  {'code': 'informatique', 'libelle': 'Informatique'},
-  {'code': 'moyens_generaux', 'libelle': 'Moyens Généraux'},
-  {'code': 'autre', 'libelle': 'Autre'},
+  {'code': 'COMPTABILITE', 'libelle': 'COMPTABILITE'},
+  {'code': 'DIRECTION GENERALE', 'libelle': 'DIRECTION GENERALE'},
+  {'code': 'GENIE CIVIL', 'libelle': 'GENIE CIVIL'},
+  {'code': 'INFORMATIQUE', 'libelle': 'INFORMATIQUE'},
+  {'code': 'MOYENS GENERAUX', 'libelle': 'MOYENS GENERAUX'},
+  {'code': 'AUTRE', 'libelle': 'AUTRE'},
 ];

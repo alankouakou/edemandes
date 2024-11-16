@@ -16,7 +16,9 @@ class PrintingService {
     final pdf = pw.Document();
 
     final logoEntreprise =
-        (await rootBundle.load('assets/shield.jpg')).buffer.asUint8List();
+        (await rootBundle.load('assets/icon/logo_pcelfi.png'))
+            .buffer
+            .asUint8List();
 
     final headers = [
       'Date decaissement',
@@ -128,9 +130,9 @@ class PrintingService {
     late final String filePath;
     try {
       if (Platform.isAndroid) {
-        // final cacheDir = await getApplicationCacheDirectory();
-        final cacheDir = await getDownloadsDirectory();
-        filePath = '${cacheDir!.path}/$fileName.pdf';
+        final cacheDir = await getApplicationCacheDirectory();
+        //final cacheDir = await getDownloadsDirectory();
+        filePath = '${cacheDir.path}/$fileName.pdf';
       } else {
         final dir = await getApplicationDocumentsDirectory();
         filePath = '${dir.path}/$fileName.pdf';
@@ -139,9 +141,9 @@ class PrintingService {
       File file = File(filePath);
       await file.writeAsBytes(byteList);
       OpenFile.open(filePath);
-    } catch (e) {
-      Utils.showInfoMessage(message: 'En cours de developpement!');
-      print(e.toString());
+    } catch (e, s) {
+      Utils.showSuccessMessage(message: 'Bientôt disponible!');
+      print(s.toString());
     }
   }
 

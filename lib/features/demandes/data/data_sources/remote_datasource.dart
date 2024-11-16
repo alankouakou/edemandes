@@ -16,13 +16,20 @@ class RemoteDatasource {
 
   Stream<QuerySnapshot> fetchAll() {
     return _demandesCollection
-        .orderBy('date_created', descending: true)
+        .orderBy('date_updated', descending: true)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> fetchAllByService(String serviceName) {
+    return _demandesCollection
+        .orderBy('date_updated', descending: true)
+        .where('service', isEqualTo: serviceName)
         .snapshots();
   }
 
   Stream<QuerySnapshot> fetchByService(String serviceName) {
     return _demandesCollection
-        .orderBy('date_created', descending: true)
+        .orderBy('date_updated', descending: true)
         .where('service', isEqualTo: serviceName)
         .where('statut', isEqualTo: Statut.pendingVisaManager)
         .snapshots();
@@ -31,15 +38,24 @@ class RemoteDatasource {
   Stream<QuerySnapshot> fetchByStatus(int statut) {
     print('statut: $statut');
     return _demandesCollection
-        .orderBy('date_created', descending: true)
+        .orderBy('date_updated', descending: true)
         .where('statut', isEqualTo: statut)
         .snapshots();
   }
 
   Future<QuerySnapshot> fetchByUserUid(String userUid) async {
     final result = await _demandesCollection
-        .orderBy('date_created', descending: true)
+        .orderBy('date_updated', descending: true)
         .where('userUid', isEqualTo: userUid)
+        .get();
+    print(result.toString());
+    return result;
+  }
+
+  Future<QuerySnapshot> getByService(String serviceName) async {
+    final result = await _demandesCollection
+        .orderBy('date_updated', descending: true)
+        .where('service', isEqualTo: serviceName)
         .get();
     print(result.toString());
     return result;

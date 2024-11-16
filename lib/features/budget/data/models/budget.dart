@@ -5,6 +5,7 @@ class Budget extends Equatable {
   final String? id;
   final String exercice;
   final double solde;
+  final double cumulDecaisse;
   final bool actif;
   final DateTime dateCreated;
 
@@ -12,6 +13,7 @@ class Budget extends Equatable {
       {this.id,
       required this.exercice,
       required this.solde,
+      required this.cumulDecaisse,
       required this.actif,
       required this.dateCreated});
 
@@ -20,6 +22,7 @@ class Budget extends Equatable {
         id: doc.id,
         exercice: doc['exercice'],
         solde: doc['solde'],
+        cumulDecaisse: doc['cumul_decaisse'],
         actif: doc['actif'],
         dateCreated: doc['date_created'].toDate());
   }
@@ -28,6 +31,7 @@ class Budget extends Equatable {
     return <String, dynamic>{
       'exercice': exercice,
       'solde': solde,
+      'cumul_decaisse': cumulDecaisse,
       'actif': actif,
       'date_created': dateCreated,
     };
@@ -37,6 +41,7 @@ class Budget extends Equatable {
     String? id,
     String? exercice,
     double? solde,
+    double? cumulDecaisse,
     bool? actif,
     DateTime? dateCreated,
   }) {
@@ -44,6 +49,7 @@ class Budget extends Equatable {
       id: id ?? this.id,
       exercice: exercice ?? this.exercice,
       solde: solde ?? this.solde,
+      cumulDecaisse: cumulDecaisse ?? this.cumulDecaisse,
       actif: actif ?? this.actif,
       dateCreated: dateCreated ?? this.dateCreated,
     );

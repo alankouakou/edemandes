@@ -4,10 +4,11 @@ import 'package:demandes/features/authentification/presentation/pages/signup_pag
 import 'package:demandes/features/budget/presentation/pages/budget_page.dart';
 import 'package:demandes/features/budget/presentation/pages/validation_demande_budget_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/add_demande_page.dart';
-import 'package:demandes/features/demandes/presentation/pages/demandes_chef.dart';
+import 'package:demandes/features/demandes/presentation/pages/demandes_initiees.dart';
 import 'package:demandes/features/demandes/presentation/pages/demandes_comptable.dart';
 import 'package:demandes/features/demandes/presentation/pages/demandes_coordo.dart';
 import 'package:demandes/features/demandes/presentation/pages/demandes_raf.dart';
+import 'package:demandes/features/demandes/presentation/pages/demandes_service_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/list_demandes_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/user_demandes_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,8 +17,8 @@ import 'package:flutter/material.dart';
 const List<Widget> userPages = [UserDemandesPage(), AddDemandePage()];
 
 const List<Widget> chefServicePages = [
-  UserDemandesPage(),
-  DemandesChefService(),
+  DemandeServicePage(),
+  DemandesInitieesService(),
   AddDemandePage()
 ];
 const List<Widget> coordonnateurPages = [

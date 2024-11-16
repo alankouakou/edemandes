@@ -9,9 +9,9 @@ final RemoteDatasource remoteDS = RemoteDatasource();
 
 final statusProvider = StateProviderFamily<int, String>((ref, role) {
   return switch (role) {
-    'chef_service' => Statut.pendingVisaManager,
-    'raf' => Statut.pendingVisaRAF,
-    'coordonnateur' => Statut.pendingVisaCoordonnateur,
+    'CHEF_SERVICE' => Statut.pendingVisaManager,
+    'RAF' => Statut.pendingVisaRAF,
+    'COORDONNATEUR' => Statut.pendingVisaCoordonnateur,
     _ => 0
   };
 });

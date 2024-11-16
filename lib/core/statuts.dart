@@ -36,19 +36,19 @@ class Statut {
   }
 
   static int StatutPendingfromRole(String role) => switch (role) {
-        'chef_service' => Statut.pendingVisaManager,
-        'raf' => Statut.pendingVisaRAF,
-        'coordonnateur' => Statut.pendingVisaCoordonnateur,
+        'CHEF_SERVICE' => Statut.pendingVisaManager,
+        'RAF' => Statut.pendingVisaRAF,
+        'COORDONNATEUR' => Statut.pendingVisaCoordonnateur,
         _ => 0
       };
 
   static bool locked(String role, int statut) {
     return switch (role) {
-      'chef_service' => statut != Statut.pendingVisaManager,
-      'raf' => statut != Statut.pendingVisaRAF,
-      'coordonnateur' => statut != Statut.pendingVisaCoordonnateur,
-      'comptable' => statut != Statut.approved,
-      'user' => statut != Statut.created,
+      'CHEF_SERVICE' => statut != Statut.pendingVisaManager,
+      'RAF' => statut != Statut.pendingVisaRAF,
+      'COORDONNATEUR' => statut != Statut.pendingVisaCoordonnateur,
+      'COMPTABLE' => statut != Statut.approved,
+      'USER' => statut != Statut.created,
       _ => statut != Statut.created
     };
   }

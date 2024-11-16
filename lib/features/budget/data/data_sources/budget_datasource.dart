@@ -21,8 +21,11 @@ class BudgetDatasource {
   }
 
   Future<List<DecaissementModel>> fetchDecaissements() async {
-    final results =
-        await _decaisssementsCollection.orderBy('date_decaissement').get();
+    final results = await _decaisssementsCollection
+        .orderBy('dateDecaissement', descending: true)
+        .get();
+
+    print(' budgetDataSourcefetchDecaissements: ${results.docs.length}');
     return results.docs.map((item) {
       return DecaissementModel.fromSnapshot(item);
     }).toList();

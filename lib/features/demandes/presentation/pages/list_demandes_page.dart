@@ -45,6 +45,8 @@ class ListDemandesPage extends ConsumerWidget {
                         final decaissements = await ref
                             .read(decaissementsNotifierProvider.notifier)
                             .fetchAll();
+
+                        print('Nb decaissements: ${decaissements.length}');
                         await PrintingService.printReport(decaissements);
                       },
                       icon: const FaIcon(FontAwesomeIcons.solidFilePdf,

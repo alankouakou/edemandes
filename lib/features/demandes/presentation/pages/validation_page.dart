@@ -57,7 +57,7 @@ class ValidationPage extends ConsumerWidget {
                             StatutDemandeWidget(statut: demande.statut)
                           ]),
                       const Gap(10),
-                      ['coordonnateur', 'raf'].contains(currentUser.role)
+                      ['COORDONNATEUR', 'RAF'].contains(currentUser.role)
                           ? const SoldeWidget()
                           : Container(),
                       const Gap(20),
@@ -126,7 +126,7 @@ class ValidationPage extends ConsumerWidget {
                                                           DateTime.timestamp(),
                                                       statut: Statut.rejected));
                                           if (currentUser.role ==
-                                              'coordonnateur') {
+                                              'COORDONNATEUR') {
                                             await ref
                                                 .read(budgetNotifierProvider
                                                     .notifier)
@@ -146,43 +146,19 @@ class ValidationPage extends ConsumerWidget {
                                   onPressed: statusLocked
                                       ? null
                                       : () async {
-                                          final statut =
-                                              Statut.accept(demande.statut);
-                                          await ref
-                                              .read(demandeRepoProvider)
-                                              .updateDemande(
-                                                  demande.docId!,
-                                                  demande.copyWith(
-                                                      dateUpdated:
-                                                          DateTime.timestamp(),
-                                                      statut: statut));
-                                          // Maj solde budget
-                                          if (currentUser.role == 'raf') {
-                                            await ref
-                                                .read(budgetNotifierProvider
-                                                    .notifier)
-                                                .deduireDemande(demande);
-                                          }
-                                          // TODO Créer Decaissement
-                                          final decaissement =
-                                              DecaissementModel(
-                                                  dateDecaissement:
-                                                      DateTime.timestamp(),
-                                                  cumulDecaisse: 0.0,
-                                                  montantDefinitif:
-                                                      demande.montantDefinitif,
-                                                  montantPrevisionnel: demande
-                                                      .montantPrevisionnel,
-                                                  objetDemande: demande.objet,
-                                                  idDemande: demande.docId,
-                                                  solde: 0.0);
                                           ref
-                                              .read(budgetRepoProvider)
-                                              .addDecaissement(decaissement);
+                                              .read(budgetNotifierProvider
+                                                  .notifier)
+                                              .deduireDemande(
+                                                  currentUser.role, demande)
+                                              .then((value) {
+                                            print('Solde suffisant: $value');
+                                            if (value) {
+                                              Navigator.pop(context);
+                                            }
+                                          });
 
-                                          // Utils.showSuccessMessage(
-                                          //     message: 'Demande acceptée!');
-                                          Navigator.pop(context);
+                                          // TODO Créer Decaissement
                                         },
                                   child: const Text(
                                     'Approuver',

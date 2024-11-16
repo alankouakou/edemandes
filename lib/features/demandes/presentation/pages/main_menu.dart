@@ -15,12 +15,12 @@ class MainMenu extends ConsumerWidget {
   List<Widget> getBody(String role) {
     print('User role : $role');
     final body = switch (role) {
-      'user' => userPages,
-      'chef_service' => chefServicePages,
-      'raf' => rafPages,
-      'coordonnateur' => coordonnateurPages,
-      'comptable' => comptablePages,
-      'admin' => adminPages,
+      'USER' => userPages,
+      'CHEF_SERVICE' => chefServicePages,
+      'RAF' => rafPages,
+      'COORDONNATEUR' => coordonnateurPages,
+      'COMPTABLE' => comptablePages,
+      'ADMIN' => adminPages,
       _ => userPages
     };
     return body;
@@ -28,12 +28,12 @@ class MainMenu extends ConsumerWidget {
 
   List<NavigationDestination> getNavDestinations(String role) {
     final navDestinations = switch (role) {
-      'user' => userNavigationDestinations,
-      'chef_service' => chefServiceDestinations,
-      'raf' => rafNavigationDestinations,
-      'coordonnateur' => coordonnateurNavigationDestinations,
-      'comptable' => comptableNavigationDestinations,
-      'admin' => adminNavigationDestinations,
+      'USER' => userNavigationDestinations,
+      'CHEF_SERVICE' => chefServiceDestinations,
+      'RAF' => rafNavigationDestinations,
+      'COORDONNATEUR' => coordonnateurNavigationDestinations,
+      'COMPTABLE' => comptableNavigationDestinations,
+      'ADMIN' => adminNavigationDestinations,
       _ => adminNavigationDestinations
     };
 

@@ -15,6 +15,8 @@ class UserNotifier extends AutoDisposeAsyncNotifier<User> {
     final varUser = await userRepository.fetchUser(auth.currentUser!.uid);
     //init User Role Provider
     ref.read(roleProvider.notifier).state = varUser.role;
+    //Init User Service Provider
+    ref.read(serviceProvider.notifier).state = varUser.service;
 
     return await userRepository.fetchUser(auth.currentUser!.uid);
   }
