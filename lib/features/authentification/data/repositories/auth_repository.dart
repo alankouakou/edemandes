@@ -1,5 +1,7 @@
+import 'package:demandes/core/messaging/repository/user_token_repository.dart';
 import 'package:demandes/core/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final _auth = FirebaseAuth.instance;
@@ -41,6 +43,14 @@ class AuthRepository {
       var user = credential.user;
 
       if (user != null) {
+        //Stocker le fcmtoken
+        final prefs = await SharedPreferences.getInstance();
+        final fcmToken = prefs.getString('fcmToken');
+        final userTokenRepository = UserTokenRepository();
+        userTokenRepository.saveUserToken(
+            token: fcmToken!, userid: user.uid, service: '');
+
+        //
         return user;
       }
     } on FirebaseAuthException catch (e) {

@@ -46,6 +46,10 @@ dependencies:
   pdf:
   path_provider:
   open_file:
+  http:
+  googleapis:
+  googleapis_auth:
+  shared_preferences:
 
 dev_dependencies:
   flutter_lints: ^3.0.0

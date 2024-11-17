@@ -19,16 +19,20 @@ class DemandesComptable extends ConsumerWidget {
 
     return Scaffold(
       body: statusDemandes.when(
-        data: (dataList) => ListView.builder(
-          itemCount: dataList.length,
-          itemBuilder: (context, index) {
-            return DemandeWidget(
-              demande: dataList[index],
-              onTap: () => Navigator.push(
-                  context, ValidationComptable.route(dataList[index])),
-            );
-          },
-        ),
+        data: (dataList) => dataList.isEmpty
+            ? const Center(
+                child: Text('Aucune demande'),
+              )
+            : ListView.builder(
+                itemCount: dataList.length,
+                itemBuilder: (context, index) {
+                  return DemandeWidget(
+                    demande: dataList[index],
+                    onTap: () => Navigator.push(
+                        context, ValidationComptable.route(dataList[index])),
+                  );
+                },
+              ),
         error: (e, s) => Center(child: Text(s.toString())),
         loading: () => const Loading(),
       ),

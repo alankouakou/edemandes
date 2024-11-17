@@ -57,15 +57,19 @@ class ListDemandesPage extends ConsumerWidget {
           ),
           Expanded(
               child: streamDemandes.when(
-                  data: (dataList) => ListView.builder(
-                        itemCount: dataList.length,
-                        itemBuilder: (context, index) {
-                          return DemandeWidget(
-                              demande: dataList[index],
-                              onTap: () => Navigator.push(context,
-                                  DetailsDemandePage.route(dataList[index])));
-                        },
-                      ),
+                  data: (dataList) => dataList.isEmpty
+                      ? const Center(
+                          child: Text('Aucune demande'),
+                        )
+                      : ListView.builder(
+                          itemCount: dataList.length,
+                          itemBuilder: (context, index) {
+                            return DemandeWidget(
+                                demande: dataList[index],
+                                onTap: () => Navigator.push(context,
+                                    DetailsDemandePage.route(dataList[index])));
+                          },
+                        ),
                   error: (e, s) => Center(child: Text(s.toString())),
                   loading: () => const Loading())),
         ]),

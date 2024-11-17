@@ -1,5 +1,9 @@
+import 'package:demandes/core/messaging/push_notification_service.dart';
+import 'package:demandes/core/messaging/repository/user_token_repository.dart';
 import 'package:demandes/features/demandes/data/data_sources/remote_datasource.dart';
 import 'package:demandes/features/demandes/data/models/demande_model.dart';
+import 'package:flutter/material.dart';
+import 'package:googleapis/monitoring/v3.dart';
 
 abstract interface class Repository {
   Future<void> addNewDemande(DemandeModel d);
@@ -19,7 +23,17 @@ class DemandeRepository implements Repository {
 
   @override
   Future<void> addNewDemande(DemandeModel demande) async {
-    return await remoteDS.add(demande);
+    await remoteDS.add(demande);
+    //await sendNotification();
+  }
+
+  Future<void> sendNotification() async {
+    // Token fourni en dur
+
+    final token = await UserTokenRepository()
+        .getUserToken('YhIMal1pP4glB3FoDqGI8WuB4TW2');
+    PushNotificationService.sendNotification(
+        deviceToken: token, content: 'Test envoi de notification');
   }
 
   @override

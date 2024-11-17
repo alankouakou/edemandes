@@ -31,7 +31,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   bool isVisible = true;
   bool isLoading = false;
   bool isProcessingData = false;
-  String _serviceDropDownValue = 'COMPTABILITE';
+  String _serviceDropDownValue = 'N/A';
 
   Future<void> signUp(String email, String password) async {}
 
@@ -62,6 +62,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final nav = Navigator.of(context);
     final asyncServices = ref.watch(serviceNotifierProvider);
     final temp = services.map((service) {
       return DropdownMenuItem<String>(
@@ -70,13 +71,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
       );
     }).toList();
 
-    ref.listen(authStreamProvider, (previous, next) {
-      if (isProcessingData && next.value != null) {
-        Utils.showSuccessMessage(
-            message: "Utilisateur ${next.value?.uid} créé avec succès!");
-        Navigator.pop(context);
-      }
-    });
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(title: const Text('Sign Up')),
@@ -238,41 +232,47 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         onPressed: isLoading == true
                             ? null
                             : () async {
-                                if (_formKey.currentState!.validate()) {
-                                  setState(() {
-                                    isLoading = true;
-                                    isProcessingData = true;
-                                  });
-                                  print(
-                                      'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
-                                  await ref
-                                      .read(authRepoProvider)
-                                      .createUserWithEmailAndPassword(
-                                          email: _emailController.text,
-                                          password: _passwordController.text)
-                                      .then(
-                                    (value) {
-                                      ref
-                                          .read(userRepositoryProvider)
-                                          .registerUser(
-                                              uid: value!.uid,
-                                              email: _emailController.text,
-                                              nom: _nomController.text,
-                                              prenom: _prenomController.text,
-                                              service: _serviceDropDownValue,
-                                              role: 'user');
+                                try {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                      isProcessingData = true;
+                                    });
+                                    print(
+                                        'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
+                                    await ref
+                                        .read(authRepoProvider)
+                                        .createUserWithEmailAndPassword(
+                                            email: _emailController.text,
+                                            password: _passwordController.text)
+                                        .then(
+                                      (value) async {
+                                        await ref
+                                            .read(userRepositoryProvider)
+                                            .registerUser(
+                                                uid: value!.uid,
+                                                email: _emailController.text,
+                                                nom: _nomController.text,
+                                                prenom: _prenomController.text,
+                                                service: _serviceDropDownValue,
+                                                role: 'USER');
+
+                                        print(
+                                            'Enreigstrement des infos user dans firestore');
+                                      },
+                                    ).whenComplete(() {
+                                      _formKey.currentState!.reset();
 
                                       print(
-                                          'Enreigstrement des infos user dans firestore');
-                                    },
-                                  );
-                                  _formKey.currentState!.reset();
-
-                                  print(
-                                      'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
-                                  setState(() {
-                                    isLoading = false;
-                                  });
+                                          'UID: ${ref.read(authRepoProvider).currentUser?.uid}');
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      nav.pop();
+                                    });
+                                  }
+                                } catch (e) {
+                                  print(e.toString);
                                 }
                               },
                         style: ElevatedButton.styleFrom(

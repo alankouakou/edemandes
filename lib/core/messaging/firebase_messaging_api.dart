@@ -1,10 +1,13 @@
+import 'package:demandes/core/messaging/repository/user_token_repository.dart';
 import 'package:demandes/features/demandes/presentation/pages/notification_screen.dart';
 import 'package:demandes/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseMessagingApi {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
   final androidChannel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
@@ -18,8 +21,14 @@ class FirebaseMessagingApi {
     _firebaseMessaging.requestPermission();
     final fcmToken = await _firebaseMessaging.getToken();
     print('fcmToken: $fcmToken');
+    //Store the fcmToken in the database
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString('fcmToken', fcmToken!);
     initPushNotifications();
   }
+
+  static Future<void> storeToken(String token) async {}
 
   void handleMessage(RemoteMessage? message) {
     if (message == null) return;

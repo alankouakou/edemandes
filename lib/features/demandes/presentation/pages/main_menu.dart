@@ -1,3 +1,4 @@
+import 'package:demandes/core/messaging/repository/user_token_repository.dart';
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
@@ -6,6 +7,7 @@ import 'package:demandes/features/demandes/presentation/pages/navigation_menus.d
 import 'package:demandes/features/demandes/presentation/widgets/appbar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final pageIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -34,7 +36,7 @@ class MainMenu extends ConsumerWidget {
       'COORDONNATEUR' => coordonnateurNavigationDestinations,
       'COMPTABLE' => comptableNavigationDestinations,
       'ADMIN' => adminNavigationDestinations,
-      _ => adminNavigationDestinations
+      _ => userNavigationDestinations
     };
 
     return navDestinations;
@@ -55,21 +57,24 @@ class MainMenu extends ConsumerWidget {
           title: const AppBarTitle(),
           actions: [
             IconButton(
-                onPressed: () {
-                  ref.read(authRepoProvider).signOut();
+                onPressed: () async {
+                  await ref.read(authRepoProvider).signOut();
+                  ref.invalidate(userNotifierProvider);
                 },
                 icon: const Icon(Icons.power_settings_new)),
           ]),
       bottomNavigationBar: asyncUser.when(
-          data: (user) => NavigationBar(
-                selectedIndex: currentIndex,
-                indicatorColor: AppPalette.buttonBackgroundColor,
-                backgroundColor: Colors.white,
-                onDestinationSelected: (value) {
-                  ref.read(pageIndexProvider.notifier).state = value;
-                },
-                destinations: getNavDestinations(user.role),
-              ),
+          data: (user) {
+            return NavigationBar(
+              selectedIndex: currentIndex,
+              indicatorColor: AppPalette.buttonBackgroundColor,
+              backgroundColor: Colors.white,
+              onDestinationSelected: (value) {
+                ref.read(pageIndexProvider.notifier).state = value;
+              },
+              destinations: getNavDestinations(user.role),
+            );
+          },
           error: (e, s) => null,
           loading: () => const Loading()),
       body: asyncUser.when(
