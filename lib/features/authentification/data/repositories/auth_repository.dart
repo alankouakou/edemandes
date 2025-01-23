@@ -43,14 +43,14 @@ class AuthRepository {
       var user = credential.user;
 
       if (user != null) {
-        //Stocker le fcmtoken
+        /*Stocker le fcmtoken
         final prefs = await SharedPreferences.getInstance();
         final fcmToken = prefs.getString('fcmToken');
         final userTokenRepository = UserTokenRepository();
         userTokenRepository.saveUserToken(
             token: fcmToken!, userid: user.uid, service: '');
 
-        //
+        */
         return user;
       }
     } on FirebaseAuthException catch (e) {

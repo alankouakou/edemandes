@@ -8,12 +8,18 @@ import 'package:gap/gap.dart';
 
 class DemandeWidget extends StatelessWidget {
   final DemandeModel demande;
+  final VoidCallback? onLongPress;
   final VoidCallback onTap;
-  const DemandeWidget({super.key, required this.demande, required this.onTap});
+  const DemandeWidget(
+      {super.key,
+      required this.demande,
+      required this.onTap,
+      this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onLongPress: onLongPress,
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(8.0),

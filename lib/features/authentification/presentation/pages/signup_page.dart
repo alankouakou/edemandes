@@ -64,12 +64,14 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   Widget build(BuildContext context) {
     final nav = Navigator.of(context);
     final asyncServices = ref.watch(serviceNotifierProvider);
+    /*
     final temp = services.map((service) {
       return DropdownMenuItem<String>(
         value: service['code'],
         child: Text(service['libelle'] ?? ''),
       );
     }).toList();
+    */
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,

@@ -1,3 +1,5 @@
+import 'package:demandes/core/messaging/push_notification_service.dart';
+import 'package:demandes/core/messaging/repository/user_token_repository.dart';
 import 'package:demandes/core/widgets/loading_white.dart';
 
 import 'package:demandes/features/authentification/presentation/pages/reset_password_page.dart';
@@ -57,7 +59,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 10.0),
                         child: const CircleAvatar(
-                          backgroundImage: AssetImage('assets/shield.jpg'),
+                          backgroundImage:
+                              AssetImage('assets/icon/logo_pcelfi.png'),
                           radius: 100,
                         )),
                     const Gap(30),

@@ -118,23 +118,19 @@ class ValidationPage extends ConsumerWidget {
                                       ? null
                                       : () async {
                                           ref
-                                              .read(demandeRepoProvider)
-                                              .updateDemande(
-                                                  demande.docId!,
-                                                  demande.copyWith(
-                                                      dateUpdated:
-                                                          DateTime.timestamp(),
-                                                      statut: Statut.rejected));
-                                          if (currentUser.role ==
-                                              'COORDONNATEUR') {
-                                            await ref
-                                                .read(budgetNotifierProvider
-                                                    .notifier)
-                                                .annulerDeduction(demande);
-                                          }
-                                          Utils.showErrorMessage(
-                                              message: 'Demande rejetée!');
-                                          Navigator.pop(context);
+                                              .read(budgetNotifierProvider
+                                                  .notifier)
+                                              .rejeterDecaissement(
+                                                  currentUser.role, demande)
+                                              .then((value) {
+                                            Utils.showErrorMessage(
+                                                message: 'Demande rejetée!');
+                                            Navigator.pop(context);
+                                          }, onError: (e, s) {
+                                            Utils.showErrorMessage(
+                                                message:
+                                                    'Une erreur est survenue');
+                                          });
                                         },
                                   child: const Text(
                                     'Rejeter',
@@ -149,16 +145,13 @@ class ValidationPage extends ConsumerWidget {
                                           ref
                                               .read(budgetNotifierProvider
                                                   .notifier)
-                                              .deduireDemande(
+                                              .validerDecaissement(
                                                   currentUser.role, demande)
                                               .then((value) {
-                                            print('Solde suffisant: $value');
                                             if (value) {
                                               Navigator.pop(context);
                                             }
                                           });
-
-                                          // TODO Créer Decaissement
                                         },
                                   child: const Text(
                                     'Approuver',

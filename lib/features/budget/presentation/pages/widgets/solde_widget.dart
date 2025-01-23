@@ -23,10 +23,18 @@ class SoldeWidget extends ConsumerWidget {
       children: [
         const Gap(20),
         budgetRepo.when(
-            data: (data) => DisplayFieldWidget(
-                title: 'Solde résiduel',
-                text: Utils.formatCFA(data!.solde),
-                color: Colors.blue.shade800),
+            data: (data) => Column(
+                  children: [
+                    DisplayFieldWidget(
+                        title: 'Solde Théorique',
+                        text: Utils.formatCFA(data!.soldeTheorique),
+                        color: Colors.blue.shade800),
+                    DisplayFieldWidget(
+                        title: 'Solde Réel',
+                        text: Utils.formatCFA(data!.soldeReel),
+                        color: Colors.blue.shade800),
+                  ],
+                ),
             error: (e, s) {
               print(e.toString());
               return Center(child: Text(e.toString()));

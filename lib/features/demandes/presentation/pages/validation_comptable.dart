@@ -3,6 +3,7 @@ import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
 import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/user_provider.dart';
+import 'package:demandes/features/budget/presentation/providers/budget_provider.dart';
 
 import 'package:demandes/features/demandes/data/models/demande_model.dart';
 import 'package:demandes/features/demandes/presentation/providers/demande_providers.dart';
@@ -123,6 +124,7 @@ class ValidationComptable extends ConsumerWidget {
                                   onPressed: statusLocked
                                       ? null
                                       : () {
+                                          /*
                                           final statut =
                                               Statut.accept(demande.statut);
                                           ref
@@ -133,9 +135,21 @@ class ValidationComptable extends ConsumerWidget {
                                                       dateUpdated:
                                                           DateTime.now(),
                                                       statut: statut));
-                                          Utils.showSuccessMessage(
-                                              message: 'Demande décaissée!');
-                                          Navigator.pop(context);
+                                                      */
+
+                                          ref
+                                              .read(budgetNotifierProvider
+                                                  .notifier)
+                                              .validerDecaissement(
+                                                  currentUser.role, demande)
+                                              .then((value) {
+                                            if (value) {
+                                              Navigator.pop(context);
+                                              Utils.showSuccessMessage(
+                                                  message:
+                                                      'Demande décaissée!');
+                                            }
+                                          });
                                         },
                                   child: const Text(
                                     'Décaisser',

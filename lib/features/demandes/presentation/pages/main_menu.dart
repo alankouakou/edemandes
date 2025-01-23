@@ -47,10 +47,6 @@ class MainMenu extends ConsumerWidget {
     final currentIndex = ref.watch(pageIndexProvider);
     final asyncUser = ref.watch(userNotifierProvider);
 
-    /*    ref.listen(pageIndexProvider, (previous, next) {
-      print('old index: $previous next index: $next');
-    });
- */
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,

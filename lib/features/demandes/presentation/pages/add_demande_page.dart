@@ -1,3 +1,4 @@
+import 'package:demandes/core/statuts.dart';
 import 'package:demandes/core/themes/app_palette.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
@@ -56,6 +57,14 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
     _userController.clear();
   }
 
+  int defineStatutDemande(String userService) {
+    int statutDemande = switch (userService) {
+      'RAF' => Statut.pendingVisaRAF,
+      _ => Statut.pendingVisaManager
+    };
+    return statutDemande;
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userNotifierProvider);
@@ -66,13 +75,6 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
         },
         error: (error, stackTrace) => null,
         loading: () => null);
-    List<String> services = [
-      'Audit',
-      'Comptabilité',
-      'Direction Générale',
-      'Informatique',
-      'Moyens généraux',
-    ];
 
     return Scaffold(
         backgroundColor: Colors.grey.shade100,
@@ -184,7 +186,9 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                               montantPrevisionnel: double.parse(
                                   _montantPrevisionnelController.text),
                               service: _serviceController.text,
-                              statut: 1,
+                              statut: _serviceController.text == 'RAF'
+                                  ? Statut.pendingVisaRAF
+                                  : Statut.pendingVisaManager,
                               user: _userController.text,
                               userUid: uid);
                           await ref

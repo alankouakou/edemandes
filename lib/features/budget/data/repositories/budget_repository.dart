@@ -1,10 +1,9 @@
 import 'package:demandes/core/statuts.dart';
-import 'package:demandes/core/utils.dart';
+
 import 'package:demandes/features/budget/data/data_sources/budget_datasource.dart';
 import 'package:demandes/features/budget/data/models/budget.dart';
 import 'package:demandes/features/budget/data/models/decaissement.dart';
 import 'package:demandes/features/budget/data/models/demande_budget.dart';
-import 'package:demandes/features/demandes/data/models/demande_model.dart';
 
 class BudgetRepository {
   final BudgetDatasource budgetDataSource;
@@ -54,15 +53,18 @@ class BudgetRepository {
   }
 
   void acceptDemande(
-      String docId, Budget budget, DemandeBudget demandeBudget) async {
+      // accpeter la demande et mettre a jour le budget et la DemandeBudget
+      String docId,
+      Budget budget,
+      DemandeBudget demandeBudget) async {
     await budgetDataSource.updateDemande(
         docId,
         demandeBudget.copyWith(
             statut: Statut.approved, dateUpdated: DateTime.now()));
-    final nouveauSolde = budget.solde + demandeBudget.montant;
-    await budgetDataSource.update(
-        budget.id!, budget.copyWith(solde: nouveauSolde));
-    Utils.showSuccessMessage(message: 'Demande budget validée');
-    print('*** Budget docId: ${budget.id} ***');
+    final newSoldeTheorique = budget.soldeTheorique + demandeBudget.montant;
+    final newSoldeReel = budget.soldeReel + demandeBudget.montant;
+    final newBudget = budget.copyWith(
+        soldeReel: newSoldeReel, soldeTheorique: newSoldeTheorique);
+    budgetDataSource.update(budget.id!, newBudget);
   }
 }

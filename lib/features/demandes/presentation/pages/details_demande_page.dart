@@ -1,3 +1,4 @@
+import 'package:demandes/core/printing/printing_service.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/core/utils.dart';
 
@@ -78,6 +79,15 @@ class DetailsDemandePage extends ConsumerWidget {
                         child: const Text('Fermer',
                             style: TextStyle(fontSize: 16))),
                     const Gap(20.0),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        onPressed: () async {
+                          print('Printing demande ${demande.docId}...');
+                          await PrintingService.printDemande(demande);
+                        },
+                        child:
+                            const Text('PDF', style: TextStyle(fontSize: 16))),
                   ],
                 ),
               )

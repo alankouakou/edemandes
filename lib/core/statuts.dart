@@ -45,9 +45,11 @@ class Statut {
   static bool locked(String role, int statut) {
     return switch (role) {
       'CHEF_SERVICE' => statut != Statut.pendingVisaManager,
-      'RAF' => statut != Statut.pendingVisaRAF,
+      'RAF' =>
+        ![Statut.pendingVisaManager, Statut.pendingVisaRAF].contains(statut),
       'COORDONNATEUR' => statut != Statut.pendingVisaCoordonnateur,
-      'COMPTABLE' => statut != Statut.approved,
+      'COMPTABLE' =>
+        ![Statut.pendingVisaManager, Statut.approved].contains(statut),
       'USER' => statut != Statut.created,
       _ => statut != Statut.created
     };

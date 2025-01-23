@@ -1,7 +1,6 @@
 import 'package:demandes/core/messaging/firebase_messaging_api.dart';
 import 'package:demandes/core/themes/app_theme.dart';
 import 'package:demandes/features/authentification/presentation/pages/auth_state_page.dart';
-import 'package:demandes/features/authentification/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseMessagingApi().initNotifications();
+  //await FirebaseMessagingApi().initNotifications();
 
   runApp(const ProviderScope(child: MyApp()));
 }

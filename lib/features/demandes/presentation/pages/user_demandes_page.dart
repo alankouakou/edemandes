@@ -1,6 +1,8 @@
+import 'package:demandes/core/statuts.dart';
 import 'package:demandes/core/widgets/loading.dart';
 import 'package:demandes/features/authentification/presentation/providers/auth_providers.dart';
 import 'package:demandes/features/demandes/presentation/pages/details_demande_page.dart';
+import 'package:demandes/features/demandes/presentation/pages/edit_demande_page.dart';
 import 'package:demandes/features/demandes/presentation/providers/demande_providers.dart';
 import 'package:demandes/features/demandes/presentation/widgets/demande_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,16 +26,24 @@ class UserDemandesPage extends ConsumerWidget {
           if (snapshot.hasData) {
             final dataList = snapshot.data;
             print('Nb items: ${dataList!.length}');
-            return ListView.builder(
-              itemCount: dataList.length,
-              itemBuilder: (context, index) {
-                return DemandeWidget(
-                  demande: dataList[index],
-                  onTap: () => Navigator.push(
-                      context, DetailsDemandePage.route(dataList[index])),
-                );
-              },
-            );
+            return dataList.isEmpty
+                ? const Center(child: Text('Aucune demande'))
+                : ListView.builder(
+                    itemCount: dataList.length,
+                    itemBuilder: (context, index) {
+                      final demande = dataList[index];
+                      final docId = demande.docId!;
+                      return DemandeWidget(
+                        demande: dataList[index],
+                        onLongPress: demande.statut != Statut.created
+                            ? null
+                            : () => Navigator.push(
+                                context, EditDemandePage.route(docId, demande)),
+                        onTap: () => Navigator.push(
+                            context, DetailsDemandePage.route(demande)),
+                      );
+                    },
+                  );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();
           } else if (snapshot.hasError) {

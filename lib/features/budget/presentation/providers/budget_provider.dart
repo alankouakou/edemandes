@@ -53,47 +53,73 @@ class BudgetNotifier extends AutoDisposeAsyncNotifier<Budget?> {
     return await budgetRepo.getCurrent();
   }
 
-  Future<bool> deduireDemande(String role, DemandeModel demande) async {
+  Future<bool> validerDecaissement(String role, DemandeModel demande) async {
     final budget = await current();
 
-    if (role == 'RAF') {
-      if (demande.montantPrevisionnel > budget!.solde) {
-        Utils.showErrorMessage(message: 'Solde budget insuffisant!');
-        return false;
-      } else {
-        // Maj solde
-        final newSolde = budget!.solde - demande.montantPrevisionnel;
-        // final newCumulDecaisse =
-        //     budget.cumulDecaisse + demande.montantPrevisionnel;
-        final budgetNew = budget.copyWith(solde: newSolde);
-        updateBudget(budget.id!, budgetNew);
+    if (budget != null) {
+      if (role == 'RAF' && demande.statut == Statut.pendingVisaRAF) {
+        if (demande.montantPrevisionnel > budget.soldeTheorique) {
+          Utils.showErrorMessage(message: 'Solde budget insuffisant!');
+          return false;
+        } else {
+          // Maj solde
+          final newSolde = budget.soldeTheorique - demande.montantPrevisionnel;
+          final budgetNew = budget.copyWith(soldeTheorique: newSolde);
+          updateBudget(budget.id!, budgetNew);
+        }
       }
+      if (role == 'COMPTABLE' && demande.statut == Statut.approved) {
+        // Maj Solde reel
+        final newSoldeReel = budget.soldeReel - demande.montantPrevisionnel;
+        final cumuldeCaisse =
+            budget.cumulDecaisse + demande.montantPrevisionnel;
+        final budgetNew = budget.copyWith(
+            soldeReel: newSoldeReel, cumulDecaisse: cumuldeCaisse);
+        updateBudget(budget.id!, budgetNew);
+
+        final decaissement = DecaissementModel(
+            dateDecaissement: DateTime.timestamp(),
+            cumulDecaisse: cumuldeCaisse,
+            montantDefinitif: demande.montantDefinitif,
+            montantPrevisionnel: demande.montantPrevisionnel,
+            objetDemande: demande.objet,
+            idDemande: demande.docId,
+            solde: newSoldeReel);
+        ref.read(budgetRepoProvider).addDecaissement(decaissement);
+      }
+      final statut = Statut.accept(demande.statut);
+      await ref.read(demandeRepoProvider).updateDemande(demande.docId!,
+          demande.copyWith(dateUpdated: DateTime.timestamp(), statut: statut));
+
+      Utils.showSuccessMessage(message: 'Demande validée');
+      return true;
+    } else {
+      Utils.showErrorMessage(message: 'Budget inexistant!');
+      return false;
     }
-    final statut = Statut.accept(demande.statut);
-    await ref.read(demandeRepoProvider).updateDemande(demande.docId!,
-        demande.copyWith(dateUpdated: DateTime.timestamp(), statut: statut));
-    if (role == 'COORDONNATEUR') {
-      final decaissement = DecaissementModel(
-          dateDecaissement: DateTime.timestamp(),
-          cumulDecaisse: 0.0,
-          montantDefinitif: demande.montantDefinitif,
-          montantPrevisionnel: demande.montantPrevisionnel,
-          objetDemande: demande.objet,
-          idDemande: demande.docId,
-          solde: budget!.solde);
-      ref.read(budgetRepoProvider).addDecaissement(decaissement);
-    }
-    Utils.showSuccessMessage(message: 'Demande validée');
-    return true;
   }
 
-  Future<void> annulerDeduction(DemandeModel demande) async {
+  Future<bool> rejeterDecaissement(String role, DemandeModel demande) async {
     final budget = await current();
 
-    final newSolde = budget!.solde + demande.montantPrevisionnel;
-    final budgetNew = budget.copyWith(solde: newSolde);
-    updateBudget(budget.id!, budgetNew);
-    Utils.showSuccessMessage(message: 'Solde mis à jour');
+    if (budget != null) {
+      ref.read(demandeRepoProvider).updateDemande(
+          demande.docId!,
+          demande.copyWith(
+              objet: 'REFUS $role  - ${demande.objet}',
+              dateUpdated: DateTime.timestamp(),
+              statut: Statut.rejected));
+      if (role == 'COORDONNATEUR') {
+        final newSolde = budget.soldeTheorique + demande.montantPrevisionnel;
+        final budgetNew = budget.copyWith(soldeTheorique: newSolde);
+        updateBudget(budget.id!, budgetNew);
+        // Utils.showSuccessMessage(message: 'Solde théorique mis à jour');
+      }
+      return true;
+    } else {
+      Utils.showErrorMessage(message: 'Budget inexistant!');
+      return false;
+    }
   }
 
   //TODO methode update demande à implementer

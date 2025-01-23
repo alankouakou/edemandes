@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 class Budget extends Equatable {
   final String? id;
   final String exercice;
-  final double solde;
+  final double soldeTheorique;
+  final double soldeReel;
   final double cumulDecaisse;
   final bool actif;
   final DateTime dateCreated;
@@ -12,7 +13,8 @@ class Budget extends Equatable {
   Budget(
       {this.id,
       required this.exercice,
-      required this.solde,
+      required this.soldeTheorique,
+      required this.soldeReel,
       required this.cumulDecaisse,
       required this.actif,
       required this.dateCreated});
@@ -21,7 +23,8 @@ class Budget extends Equatable {
     return Budget(
         id: doc.id,
         exercice: doc['exercice'],
-        solde: doc['solde'],
+        soldeReel: doc['solde_reel'],
+        soldeTheorique: doc['solde_theorique'],
         cumulDecaisse: doc['cumul_decaisse'],
         actif: doc['actif'],
         dateCreated: doc['date_created'].toDate());
@@ -30,7 +33,8 @@ class Budget extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'exercice': exercice,
-      'solde': solde,
+      'solde_theorique': soldeTheorique,
+      'solde_reel': soldeReel,
       'cumul_decaisse': cumulDecaisse,
       'actif': actif,
       'date_created': dateCreated,
@@ -40,7 +44,8 @@ class Budget extends Equatable {
   Budget copyWith({
     String? id,
     String? exercice,
-    double? solde,
+    double? soldeReel,
+    double? soldeTheorique,
     double? cumulDecaisse,
     bool? actif,
     DateTime? dateCreated,
@@ -48,7 +53,8 @@ class Budget extends Equatable {
     return Budget(
       id: id ?? this.id,
       exercice: exercice ?? this.exercice,
-      solde: solde ?? this.solde,
+      soldeTheorique: soldeTheorique ?? this.soldeTheorique,
+      soldeReel: soldeReel ?? this.soldeReel,
       cumulDecaisse: cumulDecaisse ?? this.cumulDecaisse,
       actif: actif ?? this.actif,
       dateCreated: dateCreated ?? this.dateCreated,
@@ -57,5 +63,5 @@ class Budget extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [solde, actif, dateCreated];
+  List<Object?> get props => [soldeTheorique, soldeReel, actif, dateCreated];
 }
