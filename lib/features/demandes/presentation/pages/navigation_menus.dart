@@ -1,11 +1,10 @@
 import 'package:demandes/core/themes/app_palette.dart';
-import 'package:demandes/features/authentification/presentation/pages/signup_page.dart';
-
 import 'package:demandes/features/budget/presentation/pages/budget_page.dart';
 import 'package:demandes/features/budget/presentation/pages/validation_demande_budget_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/add_demande_page.dart';
+import 'package:demandes/features/demandes/presentation/pages/demandes_decaissees.dart';
 import 'package:demandes/features/demandes/presentation/pages/demandes_initiees.dart';
-import 'package:demandes/features/demandes/presentation/pages/demandes_comptable.dart';
+import 'package:demandes/features/demandes/presentation/pages/demandes_comptable_page.dart';
 import 'package:demandes/features/demandes/presentation/pages/demandes_coordo.dart';
 import 'package:demandes/features/demandes/presentation/pages/demandes_raf.dart';
 import 'package:demandes/features/demandes/presentation/pages/demandes_service_page.dart';
@@ -34,10 +33,11 @@ const List<Widget> rafPages = [
   BudgetPage(),
 ];
 const List<Widget> comptablePages = [
-  AddDemandePage(),
-  DemandesInitieesService(),
+  //AddDemandePage(),
   UserDemandesPage(),
-  DemandesComptable(), // A décaisser
+  DemandesInitieesService(),
+  DemandesComptablePage(),
+  DemandesDecaissees(), // A décaisser
 ];
 const List<Widget> adminPages = [
   AddDemandePage(),
@@ -57,6 +57,7 @@ const userNavigationDestinations = <NavigationDestination>[
       label: 'Nouveau'),
 ];
 
+//CHEF SERVICE
 const chefServiceDestinations = <NavigationDestination>[
   NavigationDestination(
       icon: FaIcon(FontAwesomeIcons.envelopeOpenText,
@@ -76,6 +77,7 @@ const chefServiceDestinations = <NavigationDestination>[
       label: 'Nouveau'),
 ];
 
+// RAF
 const rafNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
       icon: FaIcon(FontAwesomeIcons.clock,
@@ -99,6 +101,7 @@ const rafNavigationDestinations = <NavigationDestination>[
       label: 'Budget'),
 ];
 
+//COORDONNATEUR
 const coordonnateurNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
       icon: FaIcon(FontAwesomeIcons.clock,
@@ -117,6 +120,7 @@ const coordonnateurNavigationDestinations = <NavigationDestination>[
       label: 'Budget'),
 ];
 
+//ADMIN
 const adminNavigationDestinations = <NavigationDestination>[
   NavigationDestination(
       icon: FaIcon(FontAwesomeIcons.file,
@@ -136,17 +140,8 @@ const adminNavigationDestinations = <NavigationDestination>[
       label: 'Tous'),
 ];
 
+// COMPTABLE
 const comptableNavigationDestinations = <NavigationDestination>[
-  NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.file,
-          color: AppPalette.buttonBackgroundColor),
-      selectedIcon: FaIcon(FontAwesomeIcons.file, color: Colors.white),
-      label: 'Nouveau'),
-  NavigationDestination(
-      icon: FaIcon(FontAwesomeIcons.clock,
-          color: AppPalette.buttonBackgroundColor),
-      selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
-      label: 'A valider'),
   NavigationDestination(
       icon: FaIcon(FontAwesomeIcons.envelopeOpenText,
           color: AppPalette.buttonBackgroundColor),
@@ -157,5 +152,15 @@ const comptableNavigationDestinations = <NavigationDestination>[
       icon: FaIcon(FontAwesomeIcons.clock,
           color: AppPalette.buttonBackgroundColor),
       selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
+      label: 'A valider'),
+  NavigationDestination(
+      icon: FaIcon(FontAwesomeIcons.clock,
+          color: AppPalette.buttonBackgroundColor),
+      selectedIcon: FaIcon(FontAwesomeIcons.clock, color: Colors.white),
       label: 'A decaisser'),
+  NavigationDestination(
+      icon: FaIcon(FontAwesomeIcons.coins,
+          color: AppPalette.buttonBackgroundColor),
+      selectedIcon: FaIcon(FontAwesomeIcons.coins, color: Colors.white),
+      label: 'Décaissées'),
 ];

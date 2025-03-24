@@ -41,6 +41,17 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
     isSaving = false;
   }
 
+  @override
+  void dispose() {
+    _objetController.dispose();
+    _montantPrevisionnelController.dispose();
+    _montantDefinitifController.dispose();
+    _serviceController.dispose();
+    _userController.dispose();
+
+    super.dispose();
+  }
+
   void toggleVisibility() {
     setState(
       () {

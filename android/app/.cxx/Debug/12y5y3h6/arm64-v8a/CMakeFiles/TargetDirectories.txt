@@ -1,0 +1,2 @@
+/Users/alankouakou/cashoutmgr/demandes/android/app/.cxx/Debug/12y5y3h6/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/alankouakou/cashoutmgr/demandes/android/app/.cxx/Debug/12y5y3h6/arm64-v8a/CMakeFiles/rebuild_cache.dir

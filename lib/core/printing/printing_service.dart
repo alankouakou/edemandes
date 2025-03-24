@@ -153,8 +153,11 @@ class PrintingService {
       ['Objet de la demande :', demande.objet],
       ['Nom du demandeur :', demande.user],
       ['Service du demandeur :', demande.service],
-      ['Montant prébisionnel :', Utils.formatCFA(demande.montantPrevisionnel)],
-      ['Montant definitif :', Utils.formatCFA(demande.montantDefinitif)],
+      [
+        'Montant \nprévisionnel :',
+        Utils.formatCFA(demande.montantPrevisionnel)
+      ],
+      ['Montant \ndefinitif :', Utils.formatCFA(demande.montantDefinitif)],
       ['Visa du chef de service :', ''],
       ['Visa du RAF :', ''],
       ['Visa du Coordonnateur :', ''],

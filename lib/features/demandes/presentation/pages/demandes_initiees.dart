@@ -26,7 +26,7 @@ class DemandesInitieesService extends ConsumerWidget {
       body: statusDemandes.when(
         data: (dataList) => dataList.isEmpty
             ? const Center(
-                child: Text('Aucune demande'),
+                child: Text('Aucune demande à valider!'),
               )
             : ListView.builder(
                 itemCount: dataList.length,

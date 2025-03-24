@@ -12,6 +12,7 @@ final statusProvider = StateProviderFamily<int, String>((ref, role) {
     'CHEF_SERVICE' => Statut.pendingVisaManager,
     'RAF' => Statut.pendingVisaRAF,
     'COORDONNATEUR' => Statut.pendingVisaCoordonnateur,
+    'COMPTABLE' => Statut.approved,
     _ => 0
   };
 });
@@ -48,5 +49,12 @@ final comptaStreamProvider = StreamProvider(
   (ref) {
     final demandeRepo = DemandeRepository(remoteDS);
     return demandeRepo.fetchByStatus(Statut.approved);
+  },
+);
+
+final decaisseStreamProvider = StreamProvider(
+  (ref) {
+    final demandeRepo = DemandeRepository(remoteDS);
+    return demandeRepo.fetchByStatus(Statut.paid);
   },
 );
