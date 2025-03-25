@@ -21,8 +21,8 @@ class ManagerDemandesPage extends ConsumerWidget {
     //
     //
     return Scaffold(
-      body: FutureBuilder(
-        future: userDemandes,
+      body: StreamBuilder(
+        stream: userDemandes,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final dataList = snapshot.data;

@@ -1,5 +1,6 @@
 import 'package:demandes/core/messaging/push_notification_service.dart';
 import 'package:demandes/core/messaging/repository/user_token_repository.dart';
+import 'package:demandes/core/statuts.dart';
 import 'package:demandes/features/demandes/data/data_sources/remote_datasource.dart';
 import 'package:demandes/features/demandes/data/models/demande_model.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,9 @@ abstract interface class Repository {
   Future<DemandeModel> fetch(String docId);
   Stream<List<DemandeModel>> fetchByService(String service);
   Stream<List<DemandeModel>> fetchByStatus(int status);
-  Future<List<DemandeModel>> fetchByUserUid(String userUid);
+  Stream<List<DemandeModel>> fetchByUserUid(String userUid);
   Future<List<DemandeModel>> fetchAll();
-  Future<void> delete(String docId);
+  Future<int> delete(DemandeModel d);
 }
 
 class DemandeRepository implements Repository {
@@ -37,15 +38,19 @@ class DemandeRepository implements Repository {
   }
 
   @override
-  Future<void> delete(String docId) async {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<int> delete(DemandeModel demande) async {
+    if (demande.statut == Statut.created) {
+      remoteDS.delete(demande.docId!);
+      return 0;
+    } else {
+      return 1;
+    }
   }
 
   @override
   Future<DemandeModel> fetch(String docId) async {
-    // TODO: implement fetch
-    throw UnimplementedError();
+    final ds = await remoteDS.get(docId);
+    return DemandeModel.fromMap(ds as Map<String, dynamic>);
   }
 
   @override
@@ -94,12 +99,12 @@ class DemandeRepository implements Repository {
   }
 
   @override
-  Future<List<DemandeModel>> fetchByUserUid(String userUid) async {
-    final userDemandes = await remoteDS
+  Stream<List<DemandeModel>> fetchByUserUid(String userUid) async* {
+    final userDemandes = remoteDS
         .fetchByUserUid(userUid)
-        .then((e) => e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList());
+        .map((e) => e.docs.map((d) => DemandeModel.fromSnapshot(d)).toList());
 
-    return userDemandes;
+    yield* userDemandes;
   }
 
   Future<List<DemandeModel>> getByService(String serviceName) async {

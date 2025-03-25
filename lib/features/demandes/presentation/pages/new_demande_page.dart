@@ -228,9 +228,9 @@ class _SignUpState extends ConsumerState<NewDemandePage> {
                                   montantPrevisionnel: double.parse(
                                       _montantPrevisionnelController.text),
                                   service: _serviceController.text,
-                                  statut: _serviceController.text == 'RAF'
-                                      ? Statut.pendingVisaRAF
-                                      : Statut.pendingVisaManager,
+                                  statut: getStatut(
+                                      service: _serviceController.text,
+                                      role: ref.watch(roleProvider)),
                                   user: _userController.text,
                                   userUid: uid);
                               await ref
@@ -278,5 +278,15 @@ class _SignUpState extends ConsumerState<NewDemandePage> {
             : null;
 
     return resultCheck;
+  }
+
+  int getStatut({required String role, required String service}) {
+    if (['CHEF_SERVICE', 'COORDONNATEUR', 'COMPTABLE'].contains(role)) {
+      return Statut.pendingVisaRAF;
+    } else if (role == 'RAF') {
+      return Statut.pendingVisaCoordonnateur;
+    } else {
+      return Statut.pendingVisaManager;
+    }
   }
 }

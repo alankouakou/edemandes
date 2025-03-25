@@ -14,6 +14,10 @@ class RemoteDatasource {
     _demandesCollection.doc(docId).update(demande.toMap());
   }
 
+  Future<void> delete(String docId) async {
+    _demandesCollection.doc(docId).delete();
+  }
+
   Stream<QuerySnapshot> fetchAll() {
     return _demandesCollection
         .orderBy('date_updated', descending: true)
@@ -42,7 +46,7 @@ class RemoteDatasource {
         .where('statut', isEqualTo: statut)
         .snapshots();
   }
-
+/*
   Future<QuerySnapshot> fetchByUserUid(String userUid) async {
     final result = await _demandesCollection
         .orderBy('date_updated', descending: true)
@@ -50,6 +54,14 @@ class RemoteDatasource {
         .get();
     print(result.toString());
     return result;
+  }
+*/
+
+  Stream<QuerySnapshot> fetchByUserUid(String userUid) {
+    return _demandesCollection
+        .orderBy('date_updated', descending: true)
+        .where('userUid', isEqualTo: userUid)
+        .snapshots();
   }
 
   Future<QuerySnapshot> getByService(String serviceName) async {
@@ -59,5 +71,9 @@ class RemoteDatasource {
         .get();
     print(result.toString());
     return result;
+  }
+
+  Future<DocumentSnapshot> get(String docId) async {
+    return _demandesCollection.doc(docId).get();
   }
 }
