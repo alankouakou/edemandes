@@ -26,30 +26,30 @@ class PrintingService {
             .asUint8List();
 
     final headers = [
-      'Date decaissement',
+      'Date \ndecaissement',
       'Objet',
-      'Montant prévisionnel',
-      'Montant définitif',
-      'Cumul decaisse',
-      'Solde'
+      'Montant \nprévisionnel (FCFA)',
+      'Montant \ndéfinitif (FCFA)',
+      'Cumul \ndecaisse (FCFA)',
+      'Solde \n(FCFA)'
     ];
 
     final List<List<String>> mvtDecaissements = decaissements.map((e) {
       return [
-        Utils.dateFull.format(e.dateDecaissement),
+        e.dateDecaissement.longDate,
         e.objetDemande,
-        Utils.formatCFA(e.montantPrevisionnel),
-        Utils.formatCFA(e.montantDefinitif),
-        Utils.formatCFA(e.cumulDecaisse),
-        Utils.formatCFA(e.solde)
+        e.montantPrevisionnel.francCFA,
+        e.montantDefinitif.francCFA,
+        e.cumulDecaisse.francCFA,
+        e.solde.francCFA
       ];
     }).toList();
 
-    pdf.addPage(pw.Page(
+    pdf.addPage(pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         orientation: pw.PageOrientation.landscape,
         build: (pw.Context context) {
-          return pw.Column(children: [
+          return [
             pw.Image(width: 80, height: 80, pw.MemoryImage(logoEntreprise)),
             pw.SizedBox(height: 30.0),
             pw.Center(
@@ -60,6 +60,14 @@ class PrintingService {
             pw.TableHelper.fromTextArray(
                 headers: headers,
                 data: mvtDecaissements,
+                columnWidths: {
+                  0: pw.FlexColumnWidth(),
+                  1: pw.FixedColumnWidth(200),
+                  2: pw.FlexColumnWidth(),
+                  3: pw.FlexColumnWidth(),
+                  4: pw.FlexColumnWidth(),
+                  5: pw.FlexColumnWidth(),
+                },
                 headerStyle: pw.TextStyle(
                     fontWeight: pw.FontWeight.bold, color: PdfColors.white),
                 headerDecoration: const pw.BoxDecoration(color: PdfColors.teal),
@@ -72,60 +80,9 @@ class PrintingService {
                   4: pw.Alignment.centerRight,
                   5: pw.Alignment.centerRight,
                 }),
-          ]);
+          ];
         }));
-/* 
-    pdf.addPage(pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        orientation: pw.PageOrientation.portrait,
-        build: (pw.Context context) {
-          return pw.Column(children: [
-            pw.Text('MOUVEMENTS DE CAISSE',
-                style:
-                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
-            pw.SizedBox(height: 30.0),
-            pw.TableHelper.fromTextArray(
-                headers: headersMvtCaisse,
-                data: [],
-                headerStyle: pw.TextStyle(
-                    fontWeight: pw.FontWeight.bold, color: PdfColors.white),
-                headerDecoration: const pw.BoxDecoration(color: PdfColors.teal),
-                cellHeight: 25,
-                cellAlignments: {
-                  0: pw.Alignment.centerLeft,
-                  1: pw.Alignment.centerLeft,
-                  2: pw.Alignment.centerLeft,
-                  3: pw.Alignment.centerRight
-                }),
-            //pw.TableHelper.fromTextArray(headers:,data: dataPrestations)
-          ]);
-        }));
-/*     print('adding prestations page to the report!');
-    print(mvtPrestations); */
-    pdf.addPage(pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        orientation: pw.PageOrientation.portrait,
-        build: (pw.Context ctx) {
-          return pw.Column(children: [
-            pw.Text('LISTE DECAISSEMENTS',
-                style:
-                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
-            pw.SizedBox(height: 10),
-            pw.TableHelper.fromTextArray(
-                headers: headers,
-                data: [],
-                headerStyle: pw.TextStyle(
-                    fontWeight: pw.FontWeight.bold, color: PdfColors.white),
-                headerDecoration: const pw.BoxDecoration(color: PdfColors.teal),
-                cellHeight: 25,
-                cellAlignments: {
-                  0: pw.Alignment.centerLeft,
-                  1: pw.Alignment.centerLeft,
-                  2: pw.Alignment.centerLeft,
-                  3: pw.Alignment.centerRight
-                })
-          ]);
-        })); */
+
     print('pdf daily report ends!');
     return pdf.save();
   }
@@ -157,11 +114,14 @@ class PrintingService {
         'Montant \nprévisionnel :',
         Utils.formatCFA(demande.montantPrevisionnel)
       ],
-      ['Montant \ndefinitif :', Utils.formatCFA(demande.montantDefinitif)],
-      ['Visa du chef de service :', ''],
-      ['Visa du RAF :', ''],
-      ['Visa du Coordonnateur :', ''],
-      ["Visa de l'Agent Comptable :", ''],
+      ['Montant \ndéfinitif :', Utils.formatCFA(demande.montantDefinitif)],
+      //['Visa du chef de service :', ''],
+      //['Visa du RAF :', ''],
+    ];
+
+    final infosVisas = [
+      ['Visa \ndu Coordonnateur :', ''],
+      ["Visa \nde l'Agent Comptable :", ''],
     ];
 
     final logoEntreprise =
@@ -171,10 +131,10 @@ class PrintingService {
 
     // Ajouter entete
     pdf.addPage(
-      pw.Page(
+      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         orientation: pw.PageOrientation.portrait,
-        build: (pw.Context context) => pw.Column(children: [
+        build: (pw.Context context) => [
           pw.Row(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
             pw.Column(
                 mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -212,22 +172,49 @@ class PrintingService {
           ),
           pw.SizedBox(height: 10.0),
           pw.TableHelper.fromTextArray(
-              headers: null,
-              data: infosDemande,
-              //headerStyle: pw.TextStyle(
-              //    fontWeight: pw.FontWeight.bold, color: PdfColors.white),
-              //headerDecoration: const pw.BoxDecoration(color: PdfColors.teal),
-              cellHeight: 35,
-              cellAlignments: {
-                0: pw.Alignment.centerLeft,
-                1: pw.Alignment.centerLeft,
-                /* 
+            headers: null,
+            columnWidths: {
+              0: pw.FixedColumnWidth(130),
+              1: pw.FlexColumnWidth()
+            },
+            //headerStyle: pw.TextStyle(
+            //    fontWeight: pw.FontWeight.bold, color: PdfColors.white),
+            //headerDecoration: const pw.BoxDecoration(color: PdfColors.teal),
+            cellHeight: 35,
+            cellAlignments: {
+              0: pw.Alignment.centerLeft,
+              1: pw.Alignment.centerLeft,
+              /* 
                 2: pw.Alignment.centerRight,
                 3: pw.Alignment.centerRight,
                 4: pw.Alignment.centerRight,
                 5: pw.Alignment.centerRight,
                 */
-              }),
+            },
+            data: infosDemande,
+          ),
+          pw.TableHelper.fromTextArray(
+            headers: null,
+            columnWidths: {
+              0: pw.FixedColumnWidth(130),
+              1: pw.FlexColumnWidth()
+            },
+            //headerStyle: pw.TextStyle(
+            //    fontWeight: pw.FontWeight.bold, color: PdfColors.white),
+            //headerDecoration: const pw.BoxDecoration(color: PdfColors.teal),
+            cellHeight: 70,
+            cellAlignments: {
+              0: pw.Alignment.centerLeft,
+              1: pw.Alignment.centerLeft,
+              /* 
+                2: pw.Alignment.centerRight,
+                3: pw.Alignment.centerRight,
+                4: pw.Alignment.centerRight,
+                5: pw.Alignment.centerRight,
+                */
+            },
+            data: infosVisas,
+          ),
           pw.SizedBox(height: 10.0),
           pw.Text(notaBene,
               style:
@@ -242,7 +229,7 @@ class PrintingService {
                 pw.Text(piedDePageSuite,
                     style: const pw.TextStyle(fontSize: 8)),
               ])
-        ]),
+        ],
       ),
     );
 

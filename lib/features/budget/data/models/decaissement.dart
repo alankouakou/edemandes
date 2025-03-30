@@ -36,11 +36,11 @@ class DecaissementModel {
   factory DecaissementModel.fromSnapshot(DocumentSnapshot doc) {
     return DecaissementModel(
         dateDecaissement: doc['dateDecaissement'].toDate(),
-        cumulDecaisse: doc['cumulDecaisse'],
-        montantDefinitif: doc['montantDefinitif'],
-        montantPrevisionnel: doc['montantPrevisionnel'],
+        cumulDecaisse: doc['cumulDecaisse'].toDouble(),
+        montantDefinitif: doc['montantDefinitif'].toDouble(),
+        montantPrevisionnel: doc['montantPrevisionnel'].toDouble(),
         objetDemande: doc['objetDemande'],
         idDemande: doc['idDemande'],
-        solde: doc['solde']);
+        solde: doc['solde'].toDouble());
   }
 }

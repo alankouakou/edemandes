@@ -35,7 +35,7 @@ class Utils {
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: color.withOpacity(0.9),
+        backgroundColor: color.withValues(alpha: 0.9), //color.withOpacity(0.9),
         textColor: Colors.white,
         gravity: ToastGravity.BOTTOM,
         fontSize: 16,
@@ -82,5 +82,63 @@ class Utils {
 
   static void showSuccessMessage({required String message}) {
     showToast(message: message, color: Colors.green.shade800);
+  }
+}
+
+extension FonctionsChaine on String {
+  String ellipse({int? maxLength}) {
+    final longueur = maxLength ?? 10;
+    if (this.length > longueur) {
+      return '${this.substring(1, longueur)} ...';
+    } else {
+      return this;
+    }
+  }
+
+  String get shortened {
+    final limit = 25;
+    if (this.length > limit) {
+      final shortened = substring(0, limit);
+      return '$shortened ...';
+    } else {
+      return this;
+    }
+  }
+}
+
+extension FonctionsDate on DateTime {
+  String get shortDate {
+    return DateFormat('dd/MM/yyyy').format(this);
+  }
+
+  String get longDate {
+    return DateFormat('dd/MM/yyyy HH:mm:ss').format(this);
+  }
+}
+
+extension MoneyFunctions on num {
+  String get monetaire {
+    // Create a NumberFormat instance for currency formatting
+    NumberFormat currencyFormat = NumberFormat.currency(
+      locale: 'fr_FR', // Change the locale as needed
+      symbol: '', // The currency symbol, empty string if you want only the code
+      decimalDigits: 0, // The number of decimal digits to display
+    );
+
+    // Format the amount as currency
+    return currencyFormat.format(this);
+  }
+
+  String get francCFA {
+    // Create a NumberFormat instance for currency formatting
+    NumberFormat currencyFormat = NumberFormat.currency(
+      locale: 'fr_FR', // Change the locale as needed
+      symbol:
+          'FCFA', // The currency symbol, empty string if you want only the code
+      decimalDigits: 0, // The number of decimal digits to display
+    );
+
+    // Format the amount as currency
+    return currencyFormat.format(this);
   }
 }
