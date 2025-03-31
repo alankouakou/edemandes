@@ -4,29 +4,18 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demandes/features/demandes/domain/entities/demande.dart';
 
-class DemandeModel {
-  final String? docId;
-  final String objet;
-  final double montantPrevisionnel;
-  final double montantDefinitif;
-  final String service;
-  final String user;
-  final String userUid;
-  final int statut;
-  final DateTime dateCreated;
-  final DateTime dateUpdated;
-
+class DemandeModel extends Demande {
   DemandeModel({
-    this.docId,
-    required this.objet,
-    required this.montantPrevisionnel,
-    required this.montantDefinitif,
-    required this.service,
-    required this.user,
-    required this.userUid,
-    required this.statut,
-    required this.dateCreated,
-    required this.dateUpdated,
+    super.docId,
+    required super.objet,
+    required super.montantPrevisionnel,
+    required super.montantDefinitif,
+    required super.service,
+    required super.user,
+    required super.userUid,
+    required super.statut,
+    required super.dateCreated,
+    required super.dateUpdated,
   });
 
   Demande toEntity() => Demande(
