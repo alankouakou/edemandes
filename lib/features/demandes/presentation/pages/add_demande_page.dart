@@ -193,7 +193,8 @@ class _SignUpState extends ConsumerState<AddDemandePage> {
                               objet: _objetController.text,
                               dateCreated: now,
                               dateUpdated: now,
-                              montantDefinitif: 0.0,
+                              montantDefinitif: double.parse(
+                                  _montantPrevisionnelController.text),
                               montantPrevisionnel: double.parse(
                                   _montantPrevisionnelController.text),
                               service: _serviceController.text,
