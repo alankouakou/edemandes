@@ -1,4 +1,3 @@
-import 'package:demandes/core/messaging/push_notification_service.dart';
 import 'package:demandes/core/messaging/repository/user_token_repository.dart';
 import 'package:demandes/core/statuts.dart';
 import 'package:demandes/features/demandes/data/data_sources/remote_datasource.dart';
@@ -19,15 +18,6 @@ class DemandeRepositoryImpl implements DemandeRepository {
     DemandeModel demandeModel = DemandeModel.fromEntity(demande);
     await remoteDS.add(demandeModel);
     //   await sendNotification();
-  }
-
-  Future<void> sendNotification() async {
-    // Token fourni en dur
-
-    final token = await UserTokenRepository()
-        .getUserToken('YhIMal1pP4glB3FoDqGI8WuB4TW2');
-    PushNotificationService.sendNotification(
-        deviceToken: token, content: 'Test envoi de notification');
   }
 
   @override

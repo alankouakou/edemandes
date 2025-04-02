@@ -1,4 +1,3 @@
-import 'package:demandes/core/messaging/push_notification_service.dart';
 import 'package:demandes/core/messaging/repository/user_token_repository.dart';
 import 'package:demandes/core/widgets/loading_white.dart';
 
