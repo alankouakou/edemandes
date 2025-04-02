@@ -25,16 +25,6 @@ class DemandeRepository implements Repository {
   @override
   Future<void> addNewDemande(DemandeModel demande) async {
     await remoteDS.add(demande);
-    //   await sendNotification();
-  }
-
-  Future<void> sendNotification() async {
-    // Token fourni en dur
-
-    final token = await UserTokenRepository()
-        .getUserToken('YhIMal1pP4glB3FoDqGI8WuB4TW2');
-    PushNotificationService.sendNotification(
-        deviceToken: token, content: 'Test envoi de notification');
   }
 
   @override

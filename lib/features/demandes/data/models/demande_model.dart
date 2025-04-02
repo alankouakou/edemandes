@@ -102,4 +102,18 @@ class DemandeModel extends Demande {
       dateUpdated: dateUpdated ?? this.dateUpdated,
     );
   }
+
+  factory DemandeModel.fromEntity(Demande demande) {
+    return DemandeModel(
+        docId: null,
+        objet: demande.objet,
+        montantPrevisionnel: demande.montantPrevisionnel,
+        montantDefinitif: demande.montantDefinitif,
+        service: demande.service,
+        user: demande.user,
+        userUid: demande.userUid,
+        statut: demande.statut,
+        dateCreated: demande.dateCreated,
+        dateUpdated: demande.dateUpdated);
+  }
 }
