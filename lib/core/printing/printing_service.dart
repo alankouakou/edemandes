@@ -39,7 +39,9 @@ class PrintingService {
         e.dateDecaissement.longDate,
         e.objetDemande,
         e.montantPrevisionnel.francCFA,
-        e.montantDefinitif.francCFA,
+        e.montantDefinitif == 0
+            ? e.montantPrevisionnel.francCFA
+            : e.montantDefinitif.francCFA,
         e.cumulDecaisse.francCFA,
         e.solde.francCFA
       ];
@@ -114,7 +116,12 @@ class PrintingService {
         'Montant \nprévisionnel :',
         Utils.formatCFA(demande.montantPrevisionnel)
       ],
-      ['Montant \ndéfinitif :', Utils.formatCFA(demande.montantDefinitif)],
+      [
+        'Montant \ndéfinitif :',
+        demande.montantDefinitif == 0
+            ? demande.montantPrevisionnel.francCFA
+            : demande.montantDefinitif.francCFA
+      ],
       //['Visa du chef de service :', ''],
       //['Visa du RAF :', ''],
     ];
